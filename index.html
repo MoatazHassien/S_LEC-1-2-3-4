@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Science Methodology — Final Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#14213d; --blue:#1d4ed8; --sky:#e0f2fe; --teal:#0f766e; --mint:#ccfbf1;
+  --amber:#b45309; --cream:#fff7ed; --red:#b91c1c; --rose:#fee2e2; --green:#15803d; --lime:#dcfce7;
+  --purple:#6d28d9; --lav:#ede9fe; --ink:#1f2937; --muted:#6b7280; --line:#d1d5db;
+}
+*{box-sizing:border-box}
+html{background:#e5e7eb}
+body{
+  margin:0 auto; max-width:210mm; background:#fff; color:var(--ink);
+  font-family:'Cairo','Segoe UI',Tahoma,'Noto Sans Arabic',Arial,sans-serif;
+  font-size:11pt; line-height:1.7; direction:rtl; padding:12mm;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+.en{direction:ltr; unicode-bidi:isolate; font-family:'Inter','Segoe UI',Arial,sans-serif; font-weight:600; color:#0b3b8c; font-size:.96em}
+.enb{direction:ltr; text-align:left; font-family:'Inter','Segoe UI',Arial,sans-serif; font-weight:500; background:#f8fafc; border:1px dashed #94a3b8; border-radius:8px; padding:6px 10px; margin:8px 0; font-size:10pt; line-height:1.55}
+.enb b{color:#0b3b8c}
+h1,h2,h3,h4{font-weight:800; line-height:1.35; color:var(--navy); margin:0}
+p{margin:6px 0}
+ul,ol{margin:6px 0; padding-inline-start:22px}
+li{margin:2px 0}
+b,strong{font-weight:700}
+code,.mono{direction:ltr; unicode-bidi:isolate; font-family:Consolas,'Courier New',monospace; background:#f1f5f9; border-radius:4px; padding:0 4px; font-size:.92em}
+
+/* ---------- cover ---------- */
+.cover{min-height:265mm; display:flex; flex-direction:column; justify-content:space-between; padding:6mm 0 0}
+.cover .badge{display:inline-block; background:var(--navy); color:#fff; border-radius:999px; padding:3px 16px; font-size:10pt; font-weight:700; letter-spacing:.3px}
+.cover h1{font-size:34pt; margin:14px 0 4px; color:var(--navy); direction:ltr; text-align:left; font-family:'Inter','Cairo',Arial,sans-serif; line-height:1.15}
+.cover h1 span{color:var(--blue)}
+.cover .ar{font-size:17pt; font-weight:700; color:var(--teal); margin:0 0 10px}
+.cover .lead{font-size:11.5pt; color:#374151; max-width:150mm}
+.legend{display:grid; grid-template-columns:1fr 1fr; gap:6px 10px; margin:10px 0}
+.legend div{font-size:9.5pt; border-radius:8px; padding:5px 9px; border-inline-start:5px solid}
+.chapters-list{counter-reset:c; list-style:none; padding:0; margin:8px 0}
+.chapters-list li{counter-increment:c; display:flex; gap:10px; align-items:baseline; padding:4px 0; border-bottom:1px dotted var(--line)}
+.chapters-list li::before{content:counter(c); background:var(--blue); color:#fff; min-width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:10pt; flex:none}
+.chapters-list small{color:var(--muted)}
+
+/* ---------- chapters ---------- */
+.chapter{page-break-before:always; break-before:page}
+.chap-head{display:flex; gap:12px; align-items:center; background:linear-gradient(135deg,var(--navy),#1e3a8a); color:#fff; border-radius:14px; padding:10px 16px; margin-bottom:10px}
+.chap-head .num{font-size:28pt; font-weight:800; width:52px; height:52px; border-radius:12px; background:rgba(255,255,255,.16); display:flex; align-items:center; justify-content:center; flex:none; direction:ltr}
+.chap-head h1{color:#fff; font-size:19pt; direction:ltr; text-align:left; font-family:'Inter','Cairo',Arial,sans-serif; margin:0}
+.chap-head .sub{margin:0; color:#bfdbfe; font-size:10.5pt}
+h2{font-size:14.5pt; margin:16px 0 4px; padding-bottom:3px; border-bottom:3px solid var(--blue); display:flex; gap:8px; align-items:baseline; break-after:avoid}
+h2 .en{color:var(--navy); font-size:.9em}
+h3{font-size:12pt; margin:11px 0 3px; color:var(--teal); break-after:avoid}
+h4{font-size:11pt; margin:8px 0 2px; color:var(--purple); break-after:avoid}
+
+/* ---------- boxes ---------- */
+.box{border-radius:10px; padding:7px 12px 8px; margin:9px 0; border-inline-start:6px solid; break-inside:avoid; position:relative}
+.box .tag{display:inline-block; font-size:8.6pt; font-weight:800; border-radius:6px; padding:0 8px; margin-bottom:3px; color:#fff; letter-spacing:.2px}
+.box p:first-of-type{margin-top:2px}
+.def{background:var(--sky); border-color:var(--blue)} .def .tag{background:var(--blue)}
+.rule{background:var(--cream); border-color:var(--amber)} .rule .tag{background:var(--amber)}
+.trap{background:var(--rose); border-color:var(--red)} .trap .tag{background:var(--red)}
+.ex{background:var(--lime); border-color:var(--green)} .ex .tag{background:var(--green)}
+.tip{background:var(--lav); border-color:var(--purple)} .tip .tag{background:var(--purple)}
+.note{background:#f1f5f9; border-color:#64748b} .note .tag{background:#475569}
+.legend .def,.legend .rule,.legend .trap,.legend .ex,.legend .tip{margin:0}
+
+.formula{direction:ltr; text-align:center; font-family:'Cambria Math','Times New Roman',serif; font-size:13.5pt; background:#fffbeb; border:1.5px solid #fcd34d; border-radius:10px; padding:6px 10px; margin:8px 0; break-inside:avoid; line-height:1.9}
+.formula .lbl{font-family:'Inter','Segoe UI',Arial,sans-serif; font-size:8.5pt; font-weight:700; color:var(--amber); display:block; text-align:left; line-height:1.2}
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 4px; line-height:1.25}
+.frac>span:first-child{border-bottom:1.4px solid currentColor; padding:0 5px}
+.frac>span:last-child{padding:0 5px}
+.sqrt{display:inline-block; position:relative; padding-inline-start:.85em}
+.sqrt::before{content:"√"; position:absolute; inset-inline-start:0; top:-.1em; font-size:1.25em}
+.sqrt>span{border-top:1.4px solid currentColor; padding:0 3px; display:inline-block}
+.formula.sm{font-size:11.5pt}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; margin:8px 0; font-size:10pt; break-inside:avoid}
+th{background:var(--navy); color:#fff; padding:5px 8px; font-weight:700; border:1px solid var(--navy)}
+td{padding:4px 8px; border:1px solid var(--line); vertical-align:top}
+tr:nth-child(even) td{background:#f8fafc}
+table.en-t{direction:ltr}
+table.en-t td,table.en-t th{text-align:left}
+table.center td,table.center th{text-align:center}
+td.k{font-weight:700; color:var(--navy); background:#eef2ff!important}
+.t-blue th{background:#1d4ed8;border-color:#1d4ed8} .t-teal th{background:#0f766e;border-color:#0f766e}
+
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px} .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px}
+.grid2>*,.grid3>*{min-width:0}
+.card{border:1.5px solid var(--line); border-radius:10px; padding:6px 10px; break-inside:avoid; background:#fff}
+.card h4{margin:0 0 2px; color:var(--navy)}
+.card.b{border-color:#93c5fd;background:#f0f9ff} .card.g{border-color:#86efac;background:#f0fdf4} .card.o{border-color:#fdba74;background:#fff7ed} .card.p{border-color:#c4b5fd;background:#f5f3ff}
+.chips{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0}
+.chip{direction:ltr; background:#e0e7ff; color:#1e3a8a; border-radius:999px; padding:1px 10px; font-weight:600; font-size:9.5pt; font-family:'Inter','Segoe UI',Arial,sans-serif}
+
+figure{margin:10px 0; text-align:center; break-inside:avoid}
+figure svg{max-width:100%; height:auto; direction:ltr; font-family:'Inter','Segoe UI',Arial,sans-serif}
+figcaption{font-size:9pt; color:var(--muted); margin-top:2px}
+svg text{font-family:'Inter','Segoe UI',Arial,sans-serif}
+
+/* ---------- practice ---------- */
+.q-grid{columns:2; column-gap:14px}
+.q{break-inside:avoid; font-size:9.6pt; line-height:1.5; margin:0 0 7px; padding:5px 8px; border:1px solid var(--line); border-radius:8px; direction:ltr; text-align:left; font-family:'Inter','Segoe UI',Arial,sans-serif}
+.q b.n{color:var(--blue)} .q .o{display:block; padding-left:10px; color:#374151}
+.key{direction:ltr; font-family:'Inter','Segoe UI',Arial,sans-serif; font-size:9.6pt; background:#f8fafc; border:1px solid var(--line); border-radius:8px; padding:6px 10px; line-height:1.6}
+
+/* ---------- cheat sheets ---------- */
+.sheet{page-break-before:always; break-before:page; height:272mm; overflow:hidden; font-size:8.5pt; line-height:1.38}
+.sheet .s-title{display:flex; justify-content:space-between; align-items:center; background:var(--navy); color:#fff; border-radius:10px; padding:5px 12px; margin-bottom:6px}
+.sheet .s-title h1{color:#fff; font-size:14pt; direction:ltr; font-family:'Inter',Arial,sans-serif; margin:0}
+.sheet .s-title span{font-size:9pt; color:#bfdbfe}
+.sheet .cols{columns:2; column-gap:9px}
+.sheet .blk{break-inside:avoid; border:1.3px solid var(--line); border-radius:8px; padding:3px 7px 4px; margin:0 0 5px; background:#fff; direction:ltr; text-align:left; font-family:'Inter','Segoe UI',Arial,sans-serif}
+.sheet .blk h3{font-size:8.8pt; margin:0 0 2px; color:#fff; display:inline-block; padding:0 8px; border-radius:5px; background:var(--teal); font-weight:800}
+.sheet .blk.a h3{background:var(--blue)} .sheet .blk.b h3{background:var(--amber)} .sheet .blk.c h3{background:var(--purple)} .sheet .blk.d h3{background:var(--red)} .sheet .blk.e h3{background:var(--green)}
+.sheet .blk ul{margin:1px 0; padding-left:13px; padding-inline-start:13px} .sheet .blk li{margin:0}
+.sheet .blk p{margin:1px 0}
+.sheet .blk table{font-size:8pt; margin:2px 0; direction:ltr} .sheet .blk td,.sheet .blk th{padding:1px 4px}
+.sheet .blk .formula{font-size:9.6pt; padding:1px 4px; margin:2px 0; line-height:1.55; background:#fffbeb; border-width:1px}
+.sheet .blk .frac{margin:0 2px}
+.sheet .hl{color:var(--red); font-weight:800}
+
+/* ---------- print ---------- */
+@page{size:A4; margin:10mm 10mm 12mm 10mm; @bottom-center{content:counter(page); font-size:9pt; color:#6b7280}}
+@media print{
+  html{background:#fff}
+  body{max-width:none; padding:0; font-size:10.6pt}
+  a{color:inherit; text-decoration:none}
+}
+@media (max-width:700px){ body{padding:8px} .grid2,.grid3,.legend{grid-template-columns:1fr} .q-grid{columns:1} }
+</style>
+</head>
+<body>
+
+<!-- ======================= COVER ======================= -->
+<section class="cover">
+  <div>
+    <span class="badge">BY : ENG / MOATAZ HUSSEIN</span>
+    <h1>Data Science<br><span>Methodology</span></h1>
+    <p class="ar">Summary LEC 1,2,3,4 Before QUIZ1 </p>
+    <p class="lead">الفاينل MCQ وبالإنجليزي، فالشرح هنا بالعربي بس كل مصطلح وكل جملة مهمة مكتوبة <span class="en">in English</span> زي ما هتشوفها في الامتحان. اقرأ بالترتيب، وفي الآخر فيه ورقتين <span class="en">Cheat Sheet</span> للقوانين والـ rules الثابتة.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 700 250" width="100%" role="img" aria-label="Course roadmap">
+      <defs>
+        <marker id="arr0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+      </defs>
+      <rect x="0" y="0" width="700" height="250" rx="16" fill="#f8fafc" stroke="#e2e8f0"/>
+      <g font-size="12" font-weight="700" text-anchor="middle">
+        <g transform="translate(25,28)"><rect width="190" height="64" rx="12" fill="#1d4ed8"/><text x="95" y="26" fill="#fff" font-size="15">1</text><text x="95" y="46" fill="#dbeafe">DS &amp; Methodology</text></g>
+        <g transform="translate(255,28)"><rect width="190" height="64" rx="12" fill="#0f766e"/><text x="95" y="26" fill="#fff" font-size="15">2</text><text x="95" y="46" fill="#ccfbf1">Analytic Understanding</text></g>
+        <g transform="translate(485,28)"><rect width="190" height="64" rx="12" fill="#b45309"/><text x="95" y="26" fill="#fff" font-size="15">3</text><text x="95" y="46" fill="#fed7aa">Data, Datasets, Attributes</text></g>
+        <g transform="translate(485,158)"><rect width="190" height="64" rx="12" fill="#6d28d9"/><text x="95" y="26" fill="#fff" font-size="15">4</text><text x="95" y="46" fill="#ddd6fe">Requirements → Collection</text></g>
+        <g transform="translate(255,158)"><rect width="190" height="64" rx="12" fill="#be123c"/><text x="95" y="26" fill="#fff" font-size="15">5</text><text x="95" y="46" fill="#fecdd3">Exploration &amp; Statistics</text></g>
+        <g transform="translate(25,158)"><rect width="190" height="64" rx="12" fill="#15803d"/><text x="95" y="26" fill="#fff" font-size="15">6</text><text x="95" y="46" fill="#bbf7d0">Similarity &amp; Distance</text></g>
+      </g>
+      <g stroke="#64748b" stroke-width="2.2" fill="none" marker-end="url(#arr0)">
+        <path d="M215,60 L250,60"/><path d="M445,60 L480,60"/><path d="M580,94 L580,152"/><path d="M485,190 L450,190"/><path d="M255,190 L220,190"/>
+      </g>
+      <text x="350" y="130" text-anchor="middle" font-size="12" fill="#64748b" font-weight="600">Lecture 1 → Lecture 2 (Part 1 &amp; 2) → Lecture 3</text>
+    </svg>
+    <figcaption>TOPICS</figcaption>
+  </figure>
+
+  <div>
+    <ol class="chapters-list">
+      <li><div><b>Data Science &amp; Methodology</b> — يعني إيه methodology وأشهر الـ frameworks <small>(Lecture 1)</small></div></li>
+      <li><div><b>Analytic Understanding</b> — الـ 4 أنواع: descriptive / diagnostic / predictive / prescriptive <small>(Lecture 1)</small></div></li>
+      <li><div><b>Data, Datasets &amp; Attributes</b> — أنواع الداتا وأنواع الـ attributes <small>(Lecture 2 – Part 1)</small></div></li>
+      <li><div><b>Data Requirements → Collection → Scraping → Understanding</b> <small>(Lecture 2 – Part 1)</small></div></li>
+      <li><div><b>Data Exploration &amp; Basic Statistics</b> — mean / median / mode / skewness <small>(Lecture 2 – Part 2)</small></div></li>
+      <li><div><b>Similarity &amp; Dissimilarity</b> — المسافات والقوانين كلها <small>(Lecture 3)</small></div></li>
+    </ol>
+    <div class="legend">
+      <div class="def" style="background:var(--sky);border-color:var(--blue)"><b>Definition</b> — تعريف تحفظه بالإنجليزي</div>
+      <div class="rule" style="background:var(--cream);border-color:var(--amber)"><b>Rule / Formula</b> — قانون ثابت</div>
+      <div class="ex" style="background:var(--lime);border-color:var(--green)"><b>Example</b> — مثال محلول</div>
+      <div class="trap" style="background:var(--rose);border-color:var(--red)"><b>MCQ Trap</b> — فخ بيتكرر في الامتحان</div>
+      <div class="tip" style="background:var(--lav);border-color:var(--purple)"><b>Simple idea</b> — تشبيه يسهّل الفهم</div>
+      <div class="note" style="background:#f1f5f9;border-color:#64748b"><b>Note</b> — ملاحظة جانبية</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CHAPTER 1 ======================= -->
+<section class="chapter" id="ch1">
+  <div class="chap-head"><div class="num">1</div><div><h1>Data Science &amp; Methodology</h1><p class="sub">Lecture 1 — يعني إيه methodology، وإزاي بنحل أي مشكلة بالداتا</p></div></div>
+
+  <h2>1.1 <span class="en">What is Data Science?</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb"><b>Data science</b> is the domain of study that deals with <b>vast volumes of data</b> using modern tools and techniques to find <b>unseen patterns</b>, derive <b>meaningful information</b>, and make <b>business decisions</b>.</div>
+  </div>
+  <p>ببساطة: عندك داتا كتير جداً، والـ <span class="en">Data Science</span> هو العلم اللي بيستخدم أدوات حديثة عشان يطلّع منها <b>أنماط مش ظاهرة</b> (<span class="en">unseen patterns</span>) ومعلومات مفيدة تساعد الشركة تاخد قرار.</p>
+  <ul>
+    <li>بيستخدم خوارزميات <span class="en">machine learning</span> معقدة لبناء <span class="en">predictive models</span> (نماذج بتتنبأ).</li>
+    <li>الداتا ممكن تيجي من <b>مصادر كتيرة</b> وبـ <b>formats</b> مختلفة (جداول، نصوص، صور، sensors…).</li>
+    <li>هو عملية كاملة: <span class="en">extraction → preparation → analysis → visualization → maintenance</span>.</li>
+    <li>مجال <span class="en">cross-disciplinary</span> (متعدد التخصصات): بياخد من الإحصاء والبرمجة والـ business، ويستخدم <span class="en">scientific methods</span> عشان يطلع <span class="en">insights</span>.</li>
+  </ul>
+
+  <h2>1.2 <span class="en">What is a Methodology?</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb"><b>Methodology</b> is a general strategy that guides the processes and activities within a given domain.</div>
+  </div>
+  <div class="box tip"><span class="tag">Simple idea</span>
+    <p>الـ <span class="en">methodology</span> زي <b>وصفة الطبخ أو خريطة الطريق</b>: مش بتقولك تفاصيل كل خطوة بالحرف، لكن بتقولك الخطوات الرئيسية وترتيبها عشان ماتتوهش.</p>
+  </div>
+
+  <h2>1.3 <span class="en">Why does Data Science need a Methodology?</span></h2>
+  <p>الناس اللي بتشتغل في الـ data science بتلاقي إجابات لأسئلة مختلفة كل يوم، فمحتاجين <b>روتين ثابت</b> يمشوا عليه. الـ <span class="en">data science methodology</span>:</p>
+  <ul>
+    <li>بتحدد <b>الروتين (routine)</b> لإيجاد حلول لمشكلة معينة.</li>
+    <li>هي عملية <b><span class="en">cyclic</span></b> (دايرية — بترجع وتتكرر) بتوجّه الـ <span class="en">business analysts</span> والـ <span class="en">data scientists</span>.</li>
+  </ul>
+  <p>والـ methodology بتجاوب على 3 مجموعات أسئلة:</p>
+  <table class="en-t t-blue">
+    <tr><th>From problem approach</th><th>From data approach</th><th>Problem solving</th></tr>
+    <tr>
+      <td>1. What is the problem?<br>2. How can you use data to solve this problem?<br>3. Data preprocessing</td>
+      <td>1. Which data do you need?<br>2. Where is the data coming from (identify source) and how will you get it?<br>3. Is the data representing the problem?<br>4. What additional work is required with data?</td>
+      <td>1. How is data visualized?<br>2. Modeling concepts<br>3. Putting the model into practice</td>
+    </tr>
+  </table>
+  <div class="box def"><span class="tag">In exam language</span>
+    <div class="enb">Data science methodology is a <b>structured approach</b> to solving <b>complex problems using data</b>.</div>
+  </div>
+
+  <h2>1.4 <span class="en">Typical steps of a Data Science Methodology</span></h2>
+  <p>الخطوات العامة (7 خطوات) — احفظها بالترتيب:</p>
+  <figure>
+    <svg viewBox="0 0 700 215" width="100%" role="img" aria-label="Typical 7 steps cycle">
+      <defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker></defs>
+      <g font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">
+        <g transform="translate(10,20)"><rect width="150" height="54" rx="11" fill="#1d4ed8"/><text x="75" y="22">1 Business</text><text x="75" y="40">Understanding</text></g>
+        <g transform="translate(190,20)"><rect width="150" height="54" rx="11" fill="#0f766e"/><text x="75" y="22">2 Data</text><text x="75" y="40">Understanding</text></g>
+        <g transform="translate(370,20)"><rect width="150" height="54" rx="11" fill="#b45309"/><text x="75" y="22">3 Data</text><text x="75" y="40">Preparation</text></g>
+        <g transform="translate(550,20)"><rect width="140" height="54" rx="11" fill="#6d28d9"/><text x="70" y="22">4 Data</text><text x="70" y="40">Modeling</text></g>
+        <g transform="translate(550,130)"><rect width="140" height="54" rx="11" fill="#be123c"/><text x="70" y="32">5 Evaluation</text></g>
+        <g transform="translate(335,130)"><rect width="165" height="54" rx="11" fill="#15803d"/><text x="82" y="32">6 Deployment</text></g>
+        <g transform="translate(75,130)"><rect width="215" height="54" rx="11" fill="#334155"/><text x="107" y="22">7 Monitoring &amp;</text><text x="107" y="40">Maintenance</text></g>
+      </g>
+      <g stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#a1)">
+        <path d="M160,47 L186,47"/><path d="M340,47 L366,47"/><path d="M520,47 L546,47"/>
+        <path d="M620,76 L620,126"/><path d="M550,157 L504,157"/><path d="M335,157 L294,157"/>
+        <path d="M75,157 C20,157 20,110 40,80" stroke-dasharray="5 4"/>
+      </g>
+      <text x="22" y="198" font-size="11" fill="#475569" font-weight="600">cyclic: results feed back to the start</text>
+    </svg>
+    <figcaption>دورة الخطوات العامة — لاحظ إنها <b>cycle</b> مش خط مستقيم</figcaption>
+  </figure>
+  <table class="en-t">
+    <tr><th style="width:22%">Step</th><th>What happens (exam wording)</th><th style="width:26%">كلمة السر</th></tr>
+    <tr><td class="k">Business understanding</td><td>The business problem is defined and the objective of the analysis is identified; the team works closely with business stakeholders to define goals.</td><td>تعريف المشكلة + الأهداف</td></tr>
+    <tr><td class="k">Data understanding</td><td>The team identifies and collects the required data and explores it to understand its structure, quality, and completeness.</td><td>structure · quality · completeness</td></tr>
+    <tr><td class="k">Data preparation</td><td>The team cleans, transforms, and prepares the data — critical to make sure it is in the right format and quality.</td><td>clean · transform · prepare</td></tr>
+    <tr><td class="k">Data modeling</td><td>Select appropriate modeling techniques, select the right algorithms, tune model parameters, and validate the model.</td><td>algorithms · tuning · validating</td></tr>
+    <tr><td class="k">Evaluation</td><td>Evaluate the model's performance and its ability to solve the business problem using various evaluation metrics; improve if necessary.</td><td>metrics · improve</td></tr>
+    <tr><td class="k">Deployment</td><td>Deploy the model in the production environment, integrate it into business processes, and ensure it works correctly.</td><td>production · integration</td></tr>
+    <tr><td class="k">Monitoring &amp; Maintenance</td><td>Monitor the model's performance in production and make changes/improvements so it keeps working effectively.</td><td>keep it working</td></tr>
+  </table>
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <p><b>Data understanding</b> هو اللي فيه <span class="en">collect + explore</span> (structure/quality/completeness). أما <b>cleaning و transforming</b> فده <b>Data preparation</b>. وكمان <b>Monitoring &amp; Maintenance</b> بييجي <u>بعد</u> الـ Deployment (بيتجاهلوه كتير).</p>
+  </div>
+
+  <h2>1.5 <span class="en">Popular Frameworks</span></h2>
+  <p>الفكرة العامة واحدة، بس كل <span class="en">framework</span> بيركّز على حاجة. في الامتحان هيسألوك: كل framework بيتميز بإيه؟</p>
+  <div class="chips"><span class="chip">CRISP-DM</span><span class="chip">KDD</span><span class="chip">IBM Data Science Methodology</span><span class="chip">Data science lifecycle</span></div>
+
+  <h3>① CRISP-DM <span class="en">(Cross-Industry Standard Process for Data Mining)</span></h3>
+  <div class="enb">One of the <b>most detailed and well-known</b> methodologies, covering the <b>full cycle from business understanding to deployment</b>.</div>
+  <figure>
+    <svg viewBox="0 0 560 300" width="86%" role="img" aria-label="CRISP-DM cycle">
+      <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker></defs>
+      <ellipse cx="280" cy="150" rx="255" ry="130" fill="none" stroke="#cbd5e1" stroke-width="5" stroke-dasharray="3 0"/>
+      <g font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">
+        <g transform="translate(120,40)"><rect width="140" height="44" rx="9" fill="#2563eb"/><text x="70" y="19">Business</text><text x="70" y="36">Understanding</text></g>
+        <g transform="translate(300,40)"><rect width="140" height="44" rx="9" fill="#2563eb"/><text x="70" y="19">Data</text><text x="70" y="36">Understanding</text></g>
+        <g transform="translate(400,125)"><rect width="140" height="44" rx="9" fill="#2563eb"/><text x="70" y="19">Data</text><text x="70" y="36">Preparation</text></g>
+        <g transform="translate(400,210)"><rect width="140" height="44" rx="9" fill="#2563eb"/><text x="70" y="27">Modeling</text></g>
+        <g transform="translate(210,236)"><rect width="140" height="44" rx="9" fill="#2563eb"/><text x="70" y="27">Evaluation</text></g>
+        <g transform="translate(20,125)"><rect width="140" height="44" rx="9" fill="#2563eb"/><text x="70" y="27">Deployment</text></g>
+      </g>
+      <g transform="translate(250,125)"><ellipse cx="30" cy="8" rx="26" ry="9" fill="#94a3b8"/><rect x="4" y="8" width="52" height="30" fill="#94a3b8"/><ellipse cx="30" cy="38" rx="26" ry="9" fill="#94a3b8"/><ellipse cx="30" cy="22" rx="26" ry="9" fill="none" stroke="#fff" stroke-width="1.5"/><text x="30" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#475569">Data</text></g>
+      <g stroke="#64748b" stroke-width="2.4" fill="none" marker-end="url(#a2)">
+        <path d="M262,58 L296,58"/><path d="M296,70 L264,70"/>
+        <path d="M410,86 C440,100 460,110 470,121"/>
+        <path d="M472,172 L472,206"/><path d="M462,206 L462,172"/>
+        <path d="M400,246 C380,252 366,254 354,256"/>
+        <path d="M206,258 C150,250 110,220 92,176"/>
+        <path d="M260,236 C190,190 170,130 190,92" stroke-dasharray="6 4"/>
+      </g>
+      <text x="280" y="294" text-anchor="middle" font-size="11" fill="#64748b" font-weight="600">6 phases · data is at the center · the outer ring = it repeats</text>
+    </svg>
+    <figcaption>CRISP-DM: 6 phases، والداتا في النص، والدايرة الخارجية معناها إن العملية بتتكرر</figcaption>
+  </figure>
+
+  <h3>② KDD <span class="en">(Knowledge Discovery in Databases)</span></h3>
+  <div class="enb">A <b>broader process than data mining</b>, focusing on the <b>higher-level goal of extracting useful knowledge from data</b>.</div>
+  <figure>
+    <svg viewBox="0 0 700 250" width="100%" role="img" aria-label="KDD steps">
+      <defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker></defs>
+      <g font-size="11.5" font-weight="700" text-anchor="middle">
+        <g><rect x="5" y="190" width="95" height="40" rx="8" fill="#22c55e"/><text x="52" y="215" fill="#fff">Data</text></g>
+        <g><rect x="125" y="150" width="105" height="40" rx="8" fill="#0ea5e9"/><text x="177" y="175" fill="#fff">Target Data</text></g>
+        <g><rect x="250" y="110" width="115" height="40" rx="8" fill="#6366f1"/><text x="307" y="130" fill="#fff">Preprocessed</text><text x="307" y="144" fill="#fff">Data</text></g>
+        <g><rect x="385" y="70" width="115" height="40" rx="8" fill="#f59e0b"/><text x="442" y="90" fill="#fff">Transformed</text><text x="442" y="104" fill="#fff">Data</text></g>
+        <g><rect x="520" y="30" width="80" height="40" rx="8" fill="#ef4444"/><text x="560" y="55" fill="#fff">Patterns</text></g>
+        <g><rect x="615" y="5" width="80" height="40" rx="8" fill="#b91c1c"/><text x="655" y="30" fill="#fff">Knowledge</text></g>
+      </g>
+      <g font-size="11" font-weight="700" fill="#1e293b" text-anchor="middle">
+        <rect x="35" y="148" width="82" height="22" rx="11" fill="#dcfce7" stroke="#16a34a"/><text x="76" y="163">Selection</text>
+        <rect x="136" y="108" width="100" height="22" rx="11" fill="#e0f2fe" stroke="#0284c7"/><text x="186" y="123">Preprocessing</text>
+        <rect x="266" y="68" width="105" height="22" rx="11" fill="#ede9fe" stroke="#6366f1"/><text x="318" y="83">Transformation</text>
+        <rect x="396" y="28" width="95" height="22" rx="11" fill="#fef3c7" stroke="#d97706"/><text x="443" y="43">Data Mining</text>
+        <rect x="446" y="-2" width="0" height="0"/>
+      </g>
+      <g stroke="#475569" stroke-width="2" fill="none" marker-end="url(#a3)">
+        <path d="M100,205 L121,175"/><path d="M230,165 L246,135"/><path d="M365,125 L381,95"/><path d="M500,85 L516,55"/><path d="M600,38 L611,30"/>
+      </g>
+      <text x="360" y="236" text-anchor="middle" font-size="11" fill="#64748b" font-weight="600">process (pill)  →  data product (box)</text>
+      <text x="570" y="92" font-size="11" fill="#1e293b" font-weight="700" text-anchor="middle">Interpretation / Evaluation</text>
+    </svg>
+    <figcaption>KDD: <b>Selection → Preprocessing → Transformation → Data Mining → Interpretation/Evaluation</b> والناتج النهائي <b>Knowledge</b></figcaption>
+  </figure>
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <p>في الـ KDD الـ <span class="en">Data Mining</span> هو <b>خطوة واحدة جوه</b> العملية، لكن الـ KDD نفسه <b>أوسع</b> (الهدف: knowledge). الخطوة بتنتج: Selection→<span class="en">Target data</span>، Preprocessing→<span class="en">Preprocessed data</span>، Transformation→<span class="en">Transformed data</span>، Data mining→<span class="en">Patterns</span>، Interpretation→<span class="en">Knowledge</span>.</p>
+  </div>
+
+  <h3>③ IBM Data Science Methodology <span class="en">(by John Rollins, IBM)</span></h3>
+  <div class="enb">A <b>10-step</b> process that places a <b>heavy emphasis on defining the problem and analytic approach before acquiring data</b>.</div>
+  <figure>
+    <svg viewBox="0 0 700 330" width="100%" role="img" aria-label="IBM methodology 10 steps">
+      <defs><marker id="a4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker><marker id="a4s" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker></defs>
+      <g font-size="12" font-weight="700" fill="#fff" text-anchor="middle">
+        <g transform="translate(40,8)"><rect width="170" height="40" rx="9" fill="#1d4ed8"/><text x="85" y="25">1 Business Understanding</text></g>
+        <g transform="translate(40,70)"><rect width="170" height="40" rx="9" fill="#1d4ed8"/><text x="85" y="25">2 Analytic Understanding</text></g>
+        <g transform="translate(40,132)"><rect width="170" height="40" rx="9" fill="#0f766e"/><text x="85" y="25">3 Data Requirements</text></g>
+        <g transform="translate(40,260)"><rect width="170" height="40" rx="9" fill="#0f766e"/><text x="85" y="25">4 Data Collection</text></g>
+        <g transform="translate(265,260)"><rect width="170" height="40" rx="9" fill="#0f766e"/><text x="85" y="25">5 Data Understanding</text></g>
+        <g transform="translate(490,260)"><rect width="170" height="40" rx="9" fill="#b45309"/><text x="85" y="25">6 Data Preparation</text></g>
+        <g transform="translate(490,196)"><rect width="170" height="40" rx="9" fill="#6d28d9"/><text x="85" y="25">7 Modeling</text></g>
+        <g transform="translate(490,132)"><rect width="170" height="40" rx="9" fill="#be123c"/><text x="85" y="25">8 Evaluation</text></g>
+        <g transform="translate(490,68)"><rect width="170" height="40" rx="9" fill="#15803d"/><text x="85" y="25">9 Deployment</text></g>
+        <g transform="translate(265,68)"><rect width="170" height="40" rx="9" fill="#334155"/><text x="85" y="25">10 Feedback</text></g>
+      </g>
+      <g stroke="#475569" stroke-width="2.2" fill="none" marker-end="url(#a4)">
+        <path d="M125,48 L125,66"/><path d="M125,110 L125,128"/>
+        <path d="M125,172 L125,256" marker-start="url(#a4s)"/>
+        <path d="M210,280 L261,280" marker-start="url(#a4s)"/>
+        <path d="M435,280 L486,280"/>
+        <path d="M575,260 L575,240" marker-start="url(#a4s)"/>
+        <path d="M575,196 L575,176" marker-start="url(#a4s)"/>
+        <path d="M575,132 L575,112"/>
+        <path d="M490,88 L439,88"/>
+        <path d="M350,108 C350,150 430,190 486,212" stroke-dasharray="6 4"/>
+        <path d="M575,300 C575,325 160,325 125,304" stroke-dasharray="6 4"/>
+      </g>
+      <text x="300" y="183" font-size="11" fill="#64748b" font-weight="600">iterate / refine</text>
+    </svg>
+    <figcaption>IBM: 10 steps — لاحظ <b>Analytic Understanding</b> (بيتسمى كمان <b>Analytic Approach</b>) و<b>Feedback</b> في الآخر</figcaption>
+  </figure>
+
+  <h3>④ Data Science Lifecycle</h3>
+  <div class="enb">A <b>generalized term</b> for a process with <b>5 to 7 iterative steps</b>, from business understanding to deployment, often used in <b>academia and tutorials</b>.</div>
+  <div class="grid2">
+    <div class="card b"><h4 class="en">5-step version</h4><ol class="en" style="direction:ltr;text-align:left;padding-left:20px"><li>Define and understand the problem</li><li>Data collection</li><li>Data cleaning and preparation</li><li>Exploratory data analysis</li><li>Model building and deployment</li></ol></div>
+    <div class="card g"><h4 class="en">7-step version</h4><ol class="en" style="direction:ltr;text-align:left;padding-left:20px"><li>Business understanding</li><li>Data mining (gather &amp; scrape data)</li><li>Data cleaning</li><li>Data exploration</li><li>Feature engineering</li><li>Predictive modeling</li><li>Data visualization</li></ol></div>
+  </div>
+
+  <h3>مقارنة سريعة بين الـ 4</h3>
+  <table class="en-t t-teal">
+    <tr><th>Framework</th><th>Signature idea</th><th>Count / shape</th></tr>
+    <tr><td class="k">CRISP-DM</td><td>Most detailed &amp; well-known; full cycle business understanding → deployment</td><td>6 phases, cyclic, data at the center</td></tr>
+    <tr><td class="k">KDD</td><td>Broader than data mining; goal = useful <b>knowledge</b></td><td>5 steps, ends with Knowledge</td></tr>
+    <tr><td class="k">IBM</td><td>Define problem &amp; analytic approach <b>before</b> acquiring data</td><td>10 steps (ends with Feedback)</td></tr>
+    <tr><td class="k">DS lifecycle</td><td>Generalized term; common in academia &amp; tutorials</td><td>5–7 iterative steps</td></tr>
+  </table>
+  <div class="box def"><span class="tag">In exam language</span>
+    <div class="enb">In summary, a data science methodology involves a structured approach to problem-solving using data, including <b>understanding the business problem, collecting and preparing the data, modeling and evaluating, deploying the model, and monitoring and maintaining its performance</b>.</div>
+  </div>
+</section>
+
+<!-- ======================= CHAPTER 2 ======================= -->
+<section class="chapter" id="ch2">
+  <div class="chap-head"><div class="num">2</div><div><h1>Analytic Understanding</h1><p class="sub">Lecture 1 (الجزء التاني) — أول خطوتين في IBM methodology + الـ 4 أنواع</p></div></div>
+
+  <h2>2.1 <span class="en">Step 1 — Business Understanding</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb">Before solving any problem in the business domain, it needs to be <b>understood properly</b>. Business understanding forms a <b>concrete base</b> that leads to easy resolution of queries. We should have <b>clarity of what the exact problem is</b>.</div>
+  </div>
+  <ul>
+    <li>السؤال الأساسي: <span class="en">What is the problem you are trying to solve?</span></li>
+    <li>لازم تطلب <b>توضيح بدري (early clarification)</b>، وإلا هتضيّع وقت وموارد في الاتجاه الغلط.</li>
+    <li>عشان تفهم السؤال لازم تفهم <b>هدف الشخص اللي بيسأل</b> (<span class="en">the goal of the person asking the question</span>).</li>
+    <li>بعدها بنقسّم الأهداف (<span class="en">break down objectives</span>) ونرتّبها حسب الأولوية (<span class="en">prioritize</span>).</li>
+  </ul>
+  <div class="box tip"><span class="tag">Simple idea</span>
+    <p>لو عميلك قال "عايز أعرف ليه المبيعات قلّت" — قبل أي كود لازم تسأل: قلّت إمتى؟ في أنهي منتج؟ وعايزها لإيه؟ ده كله <span class="en">Business Understanding</span>. الخطوة دي بتحدد <b>الداتا</b> اللي هتستخدمها و<b>الـ approach</b> اللي هتمشي عليه.</p>
+  </div>
+
+  <h2>2.2 <span class="en">Step 2 — Analytic Understanding (Analytic Approach)</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb"><b>Analytic approach:</b> <i>How can you use data to answer the question?</i> The second step is <b>selecting the correct approach</b> for the specific problem; it points back to the business understanding and helps identify <b>what methods</b> to use.</div>
+  </div>
+  <div class="box note"><span class="tag">Note</span>
+    <p>الخطوة دي اتكتبت بالاسمين في المحاضرات: <span class="en">Analytic Understanding</span> و <span class="en">Analytic Approach</span> — نفس الحاجة. لو شفتهم في اختيارات MCQ مع بعض، ماتتلخبطش.</p>
+  </div>
+
+  <h3>طب الـ Data Analytics نفسه يعني إيه؟</h3>
+  <div class="enb"><b>Data analytics</b> refers to the techniques used to analyze data to <b>enhance productivity and business gain</b>. Data is <b>extracted from various sources</b>, <b>cleaned and categorized</b> to analyze <b>behavioral patterns</b>. The techniques and tools vary according to the organization or individual.</div>
+
+  <h2>2.3 <span class="en">The 4 Types of Analytics</span></h2>
+  <p>بعد ما تفهم المشكلة كويس، بتختار واحد من 4 approaches. فكّر فيهم كأنك بتسأل أربع أسئلة متدرجة:</p>
+  <figure>
+    <svg viewBox="0 0 700 330" width="100%" role="img" aria-label="Analytics ladder: value and complexity">
+      <defs><marker id="b1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,10 L5,0 L10,10 z" fill="#64748b"/></marker></defs>
+      <g font-weight="700" text-anchor="middle">
+        <g transform="translate(190,10)"><rect width="320" height="58" rx="12" fill="#14b8a6"/><text x="160" y="25" fill="#fff" font-size="14">Prescriptive</text><text x="160" y="45" fill="#f0fdfa" font-size="11.5">How do we solve it? (best action + reason)</text></g>
+        <g transform="translate(190,84)"><rect width="320" height="58" rx="12" fill="#a16207"/><text x="160" y="25" fill="#fff" font-size="14">Predictive</text><text x="160" y="45" fill="#fef9c3" font-size="11.5">What will happen next? (forecast)</text></g>
+        <g transform="translate(190,158)"><rect width="320" height="58" rx="12" fill="#0ea5e9"/><text x="160" y="25" fill="#fff" font-size="14">Diagnostic</text><text x="160" y="45" fill="#e0f2fe" font-size="11.5">Why did it happen? (cause)</text></g>
+        <g transform="translate(190,232)"><rect width="320" height="58" rx="12" fill="#65a30d"/><text x="160" y="25" fill="#fff" font-size="14">Descriptive</text><text x="160" y="45" fill="#ecfccb" font-size="11.5">What happened? (current status / past)</text></g>
+      </g>
+      <g stroke="#64748b" stroke-width="6" fill="none" marker-end="url(#b1)"><path d="M70,300 L70,24"/><path d="M630,300 L630,24"/></g>
+      <g font-size="12" font-weight="700" fill="#334155">
+        <text x="85" y="40">foresight</text><text x="85" y="170">insight</text><text x="85" y="290">hindsight</text>
+        <text x="618" y="40" text-anchor="end">high</text><text x="618" y="170" text-anchor="end">medium</text><text x="618" y="290" text-anchor="end">low</text>
+      </g>
+      <text x="45" y="165" font-size="12" font-weight="800" fill="#475569" transform="rotate(-90 45 165)" text-anchor="middle">VALUE</text>
+      <text x="665" y="165" font-size="12" font-weight="800" fill="#475569" transform="rotate(-90 665 165)" text-anchor="middle">COMPLEXITY</text>
+    </svg>
+    <figcaption>كل ما نطلع فوق: <b>value</b> بتزيد و<b>complexity</b> بتزيد (data + storage + processing أكتر)</figcaption>
+  </figure>
+
+  <div class="grid2">
+    <div class="card" style="border-color:#bef264;background:#f7fee7">
+      <h4>1) Descriptive Analytics <span class="en">— hindsight</span></h4>
+      <div class="enb" style="font-size:9pt"><b>Contextualize data to generate information</b>; answers questions about <b>occurred events</b>.</div>
+      <ul>
+        <li><span class="en">What was the sales volume over the past 12 months?</span></li>
+        <li><span class="en">What is the monthly commission earned by each sales agent?</span></li>
+        <li>التقارير <b>static</b> وبتعرض <b>historical data</b> في <span class="en">data grids or charts</span>.</li>
+        <li>الـ queries بتتنفذ على <span class="en">operational data stores</span> زي <span class="en">OLTP / CRM / ERP</span> ← النتيجة <span class="en">reports &amp; dashboards</span>.</li>
+      </ul>
+    </div>
+    <div class="card b">
+      <h4>2) Diagnostic Analytics <span class="en">— insight</span></h4>
+      <div class="enb" style="font-size:9pt">Determine the <b>cause</b> of a phenomenon that occurred in the <b>past</b> (the <b>reason behind the event</b>). AKA <b>statistical analysis</b>.</div>
+      <ul>
+        <li><span class="en">Why were Q2 sales less than Q1 sales?</span></li>
+        <li><span class="en">Why was there an increase in patient re-admission rates over the past three months?</span></li>
+        <li>محتاج داتا من <b>مصادر متعددة</b> مخزنة بشكل يسمح بـ <span class="en">drill-down</span> و <span class="en">roll-up</span> (<span class="en">OLAP</span>).</li>
+        <li>بتتشاف عن طريق <span class="en">interactive visualization tools</span> عشان تلاقي trends و patterns.</li>
+      </ul>
+    </div>
+    <div class="card o">
+      <h4>3) Predictive Analytics <span class="en">— foresight</span></h4>
+      <div class="enb" style="font-size:9pt">Predicts <b>outcomes of events</b> based on <b>patterns, trends and exceptions</b> from historical and current data.</div>
+      <ul>
+        <li><span class="en">What are the chances a customer will default on a loan if they missed a monthly payment?</span></li>
+        <li><span class="en">If a customer bought products A and B, what are the chances they will also buy product C?</span></li>
+        <li>بيستخدم لـ <span class="en">identify risks and opportunities</span>.</li>
+        <li>محتاج <b>skillset أكبر</b> من descriptive و diagnostic، ومحتاج <b>large datasets</b>.</li>
+        <li>النماذج معتمدة على ظروف الماضي ← <b>لازم تتحدّث (update is required)</b>.</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color:#5eead4;background:#f0fdfa">
+      <h4>4) Prescriptive Analytics <span class="en">— foresight</span></h4>
+      <div class="enb" style="font-size:9pt">Builds upon predictive results by <b>describing actions that should be taken</b>. An <b>advisory approach</b>: propose the <b>best action and the reason</b>.</div>
+      <ul>
+        <li><span class="en">Among three drugs, which one provides the best results?</span></li>
+        <li><span class="en">When is the best time to trade a particular stock?</span></li>
+        <li>بيدّي <b>أعلى قيمة</b> (<span class="en">most valuable outcome</span>) ومحتاج <b>أصعب skillset</b>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 700 175" width="92%" role="img" aria-label="Predictions to decisions to effects">
+      <defs><marker id="b2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker></defs>
+      <g font-weight="800" text-anchor="middle" fill="#fff" font-size="14">
+        <path d="M10,60 H190 L225,90 L190,120 H10 Z" fill="#dc2626"/><text x="105" y="95">Predictions</text>
+        <path d="M250,60 H430 L465,90 L430,120 H250 Z" fill="#ea580c"/><text x="345" y="95">Decisions</text>
+        <path d="M490,60 H655 L690,90 L655,120 H490 Z" fill="#b45309"/><text x="580" y="95">Effects</text>
+      </g>
+      <g font-size="11.5" fill="#334155" font-weight="600" text-anchor="middle">
+        <text x="105" y="145">What will happen? When? Why?</text>
+        <text x="345" y="145">How do we benefit from these predictions?</text>
+        <text x="580" y="145">How will these decisions impact everything else?</text>
+      </g>
+      <path d="M10,28 H225" stroke="#b91c1c" stroke-width="3"/><text x="118" y="20" text-anchor="middle" font-size="11.5" font-weight="800" fill="#b91c1c">Predictive analytics</text>
+      <path d="M10,166 H690" stroke="#b45309" stroke-width="3"/><text x="350" y="14" text-anchor="middle" font-size="0"> </text>
+      <text x="460" y="172" text-anchor="middle" font-size="11.5" font-weight="800" fill="#b45309" style="paint-order:stroke" stroke="#fff" stroke-width="4">Prescriptive analytics (= predictive + decisions + effects)</text>
+    </svg>
+    <figcaption>Prescriptive = Predictions <b>+</b> Decisions <b>+</b> Effects</figcaption>
+  </figure>
+
+  <table class="en-t t-blue center">
+    <tr><th>Type</th><th>Key question</th><th>Time view</th><th>Level</th></tr>
+    <tr><td class="k">Descriptive</td><td>What happened?</td><td>Hindsight</td><td>Low complexity</td></tr>
+    <tr><td class="k">Diagnostic</td><td>Why did it happen?</td><td>Insight</td><td>Medium</td></tr>
+    <tr><td class="k">Predictive</td><td>What will happen? (forecasting)</td><td>Foresight</td><td>High</td></tr>
+    <tr><td class="k">Prescriptive</td><td>How do we solve it? / What should we do?</td><td>Foresight</td><td>Highest — most advanced skillset</td></tr>
+  </table>
+
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <p><b>الحيلة:</b> بص على أول كلمة في السؤال —
+    <b>"What / how many / what was…"</b> ← <span class="en">Descriptive</span> ·
+    <b>"Why…"</b> ← <span class="en">Diagnostic</span> ·
+    <b>"What will happen / chance that / forecast"</b> ← <span class="en">Predictive</span> ·
+    <b>"Which is best / when is the best time / what should we do"</b> ← <span class="en">Prescriptive</span>.</p>
+    <p>وكمان: الـ <span class="en">Diagnostic</span> اسمه التاني <b>statistical analysis</b>، والـ <span class="en">Predictive</span> اسمه <b>forecasting</b>.</p>
+  </div>
+
+  <h2>2.4 <span class="en">Question types → which model?</span></h2>
+  <p>نوع السؤال اللي عايز تجاوب عليه هو اللي بيحدد نوع الـ model:</p>
+  <table class="en-t t-teal">
+    <tr><th>If the question…</th><th>Then use a…</th><th>مثال</th></tr>
+    <tr><td>is to <b>determine probabilities of an action</b></td><td class="k">Predictive model</td><td>احتمال إن العميل يشتري المنتج C</td></tr>
+    <tr><td>is to <b>show relationships</b></td><td class="k">Descriptive model</td><td>إيه العلاقة بين المرتب والخبرة؟</td></tr>
+    <tr><td>requires a <b>binary answer</b> (yes/no)</td><td class="k">Classification model</td><td>هل العميل هيسدد القرض؟ yes/no</td></tr>
+  </table>
+</section>
+
+<!-- ======================= CHAPTER 3 ======================= -->
+<section class="chapter" id="ch3">
+  <div class="chap-head"><div class="num">3</div><div><h1>Data, Datasets &amp; Attributes</h1><p class="sub">Lecture 2 (Part 1) — الداتا بتتولد إزاي، بتتنظم إزاي، وبتتوصف بإيه</p></div></div>
+
+  <h2>3.1 <span class="en">Data &amp; Datasets</span></h2>
+  <div class="grid2">
+    <div class="box def" style="margin:0"><span class="tag">Data</span>
+      <div class="enb"><b>Data</b> is anything that has been produced or created during research. <b>Primary data</b> is data you created yourself; your datasets can also contain data created by other researchers.</div>
+    </div>
+    <div class="box def" style="margin:0"><span class="tag">Dataset</span>
+      <div class="enb">A <b>collection of related data</b> that share the <b>same set of attributes</b> or properties. Each member of the dataset is called a <b>"datum"</b>.</div>
+    </div>
+  </div>
+  <div class="box trap"><span class="tag">MCQ Trap</span><p>عنصر واحد في الـ dataset اسمه <b><span class="en">datum</span></b> (مفرد)، والجمع <span class="en">data</span>. ومعظم الأسئلة بتسأل: "each member of a dataset is called…؟"</p></div>
+
+  <h2>3.2 <span class="en">Types of Data — by Generation</span></h2>
+  <p>مين اللي بيولّد الداتا؟ <b>إنسان</b> ولا <b>ماكينة</b>؟</p>
+  <figure>
+    <svg viewBox="0 0 700 250" width="100%" role="img" aria-label="Data generation: human vs machine">
+      <g font-weight="700" font-size="12.5" text-anchor="middle">
+        <rect x="260" y="8" width="180" height="40" rx="10" fill="#1e3a8a"/><text x="350" y="33" fill="#fff" font-size="14">Data Generation</text>
+        <rect x="95" y="85" width="150" height="38" rx="10" fill="#2563eb"/><text x="170" y="109" fill="#fff" font-size="14">Human-generated</text>
+        <rect x="455" y="85" width="150" height="38" rx="10" fill="#0f766e"/><text x="530" y="109" fill="#fff" font-size="14">Machine-generated</text>
+      </g>
+      <g stroke="#94a3b8" stroke-width="2" fill="none"><path d="M350,48 V66 H170 V85"/><path d="M350,66 H530 V85"/></g>
+      <g font-size="12" text-anchor="middle" font-weight="600">
+        <rect x="8" y="160" width="150" height="60" rx="9" fill="#dbeafe"/><text x="83" y="182">Laptop</text><text x="83" y="202" fill="#1d4ed8">→ structured data</text>
+        <rect x="170" y="160" width="150" height="60" rx="9" fill="#dbeafe"/><text x="245" y="182">Mobile phone</text><text x="245" y="202" fill="#1d4ed8">→ video</text>
+        <rect x="8" y="228" width="312" height="0" fill="none"/>
+        <rect x="380" y="160" width="100" height="60" rx="9" fill="#ccfbf1"/><text x="430" y="182">Web server</text><text x="430" y="202" fill="#0f766e">→ textual</text>
+        <rect x="490" y="160" width="100" height="60" rx="9" fill="#ccfbf1"/><text x="540" y="182">Smart meter</text><text x="540" y="202" fill="#0f766e">→ sensor</text>
+        <rect x="600" y="160" width="95" height="60" rx="9" fill="#ccfbf1"/><text x="647" y="182">GPS</text><text x="647" y="202" fill="#0f766e">→ XML data</text>
+      </g>
+      <g stroke="#94a3b8" stroke-width="2" fill="none"><path d="M170,123 V140 H83 V160"/><path d="M170,140 H245 V160"/><path d="M530,123 V140 H430 V160"/><path d="M530,140 H540 V160"/><path d="M530,140 H647 V160"/></g>
+      <text x="83" y="240" font-size="10.5" fill="#475569" text-anchor="middle">(+ ATM → textual data)</text>
+    </svg>
+    <figcaption>Human: laptop (structured)، phone (video)، ATM (textual). Machine: web server (textual log)، smart meter (sensor)، GPS (XML)</figcaption>
+  </figure>
+
+  <h2>3.3 <span class="en">Types of Datasets</span></h2>
+  <table class="en-t t-blue">
+    <tr><th style="width:24%">Category</th><th>Examples</th></tr>
+    <tr><td class="k">Record</td><td>Relational records · Data matrix (numerical matrix, cross tabs) · <b>Document data</b> (text documents as <i>term-frequency vector</i>) · <b>Transaction data</b> (e.g., TID 1 → Bread, Coke, Milk)</td></tr>
+    <tr><td class="k">Graph &amp; network</td><td>World Wide Web · Social or information networks · Molecular structures</td></tr>
+    <tr><td class="k">Ordered</td><td>Video data (sequence of images) · Temporal data (time-series) · Sequential data (transaction sequences) · Genetic sequence data</td></tr>
+    <tr><td class="k">Spatial, image &amp; multimedia</td><td>Spatial data (maps) · Image data · Video data</td></tr>
+  </table>
+  <div class="box tip"><span class="tag">Simple idea</span><p>جدول الـ <b>document data</b>: كل صف = مستند، وكل عمود = كلمة (team, coach, ball…)، والرقم = كام مرة الكلمة ظهرت. ده اسمه <span class="en">term-frequency vector</span>. أما <b>transaction data</b> فكل صف = عملية شراء ومعاها <span class="en">list of items</span>.</p></div>
+
+  <h2>3.4 <span class="en">Types of Data — by Organization</span></h2>
+  <table class="en-t t-teal">
+    <tr><th>Feature</th><th>Structured</th><th>Semi-structured</th><th>Unstructured</th></tr>
+    <tr><td class="k">Schema / model</td><td>Data model or <b>schema stored in tabular form</b></td><td>Has a <b>defined level of structure &amp; consistency</b> — hierarchical or graph-based, <b>not relational</b></td><td><b>Does not conform</b> to a data model or schema</td></tr>
+    <tr><td class="k">Processing</td><td>Rarely needs special consideration → many tools can be used</td><td><b>Easier than unstructured</b>, but needs special pre-processing &amp; storage (e.g., <b>validation of XML</b> file)</td><td><b>Faster growth</b> than structured; hard to process</td></tr>
+    <tr><td class="k">Examples</td><td>Banking transactions, invoices, customer records (relational database)</td><td>EDI files, spreadsheets, RSS feeds, sensor data, <b>XML, JSON</b></td><td>Video, image files, audio (e.g., audio can't be played without the correct <i>codec</i>)</td></tr>
+    <tr><td class="k">Storage</td><td>Relational DB</td><td>—</td><td><b>NoSQL</b> can store it along with structured</td></tr>
+  </table>
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <p><b>JSON / XML / RSS / sensor data = Semi-structured</b> (مش structured). والـ <b>spreadsheet</b> جاية في المحاضرة تحت semi-structured. أما <b>video/image/audio</b> فـ unstructured. وكلمة <b>"relational"</b> = structured بس.</p>
+  </div>
+
+  <h2>3.5 <span class="en">Data Objects &amp; Attributes</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb">Datasets are made up of <b>data objects</b>. A <b>data object represents an entity</b> (e.g., customers, store items, sales / patients, treatments / students, professors, courses). Also called <i>samples, examples, instances, data points, objects, tuples</i>. Data objects are described by <b>attributes</b>. <b>Database rows → data objects; columns → attributes.</b></div>
+  </div>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb"><b>Attribute</b> (or <i>dimension, feature, variable</i>): a data field representing a <b>characteristic or feature of a data object</b>. E.g., Customer_ID, name, address.</div>
+  </div>
+  <table class="en-t center" style="max-width:420px;margin-inline:auto">
+    <tr><th>Customer_ID</th><th>name</th><th>address</th></tr>
+    <tr><td>101</td><td>Ahmed</td><td>Alexandria</td></tr>
+    <tr><td>102</td><td>Mona</td><td>Cairo</td></tr>
+  </table>
+  <p style="text-align:center;font-size:9.5pt;color:var(--muted)">كل صف = <span class="en">data object (a customer)</span> · كل عمود = <span class="en">attribute</span></p>
+
+  <h2>3.6 <span class="en">Attribute Types</span></h2>
+  <figure>
+    <svg viewBox="0 0 700 285" width="100%" role="img" aria-label="Attribute types tree">
+      <g font-weight="700" font-size="12.5" text-anchor="middle" fill="#fff">
+        <rect x="290" y="5" width="120" height="34" rx="8" fill="#14213d"/><text x="350" y="27">Attribute Type</text>
+        <rect x="115" y="70" width="130" height="34" rx="8" fill="#1d4ed8"/><text x="180" y="92">Qualitative</text>
+        <rect x="455" y="70" width="130" height="34" rx="8" fill="#b45309"/><text x="520" y="92">Quantitative</text>
+        <rect x="10" y="140" width="95" height="34" rx="8" fill="#3b82f6"/><text x="57" y="162">Nominal</text>
+        <rect x="125" y="140" width="95" height="34" rx="8" fill="#3b82f6"/><text x="172" y="162">Binary</text>
+        <rect x="240" y="140" width="95" height="34" rx="8" fill="#3b82f6"/><text x="287" y="162">Ordinal</text>
+        <rect x="75" y="210" width="110" height="34" rx="8" fill="#93c5fd"/><text x="130" y="232" fill="#1e3a8a">Symmetric</text>
+        <rect x="200" y="210" width="115" height="34" rx="8" fill="#93c5fd"/><text x="257" y="232" fill="#1e3a8a">Asymmetric</text>
+        <rect x="395" y="140" width="95" height="34" rx="8" fill="#f59e0b"/><text x="442" y="162">Numeric</text>
+        <rect x="510" y="140" width="95" height="34" rx="8" fill="#f59e0b"/><text x="557" y="162">Discrete</text>
+        <rect x="625" y="140" width="70" height="34" rx="8" fill="#f59e0b" /><text x="660" y="162" font-size="11">Continuous</text>
+        <rect x="355" y="210" width="100" height="34" rx="8" fill="#fcd34d"/><text x="405" y="232" fill="#78350f">Interval</text>
+        <rect x="470" y="210" width="100" height="34" rx="8" fill="#fcd34d"/><text x="520" y="232" fill="#78350f">Ratio</text>
+      </g>
+      <g stroke="#94a3b8" stroke-width="2" fill="none">
+        <path d="M350,39 V54 H180 V70"/><path d="M350,54 H520 V70"/>
+        <path d="M180,104 V122 H57 V140"/><path d="M180,122 H172 V140"/><path d="M180,122 H287 V140"/>
+        <path d="M172,174 V192 H130 V210"/><path d="M172,192 H257 V210"/>
+        <path d="M520,104 V122 H442 V140"/><path d="M520,122 H557 V140"/><path d="M520,122 H660 V140"/>
+        <path d="M442,174 V192 H405 V210"/><path d="M442,192 H520 V210"/>
+      </g>
+      <text x="350" y="272" text-anchor="middle" font-size="11" fill="#64748b" font-weight="600">Interval &amp; Ratio = the two kinds of numeric (quantity) attributes</text>
+    </svg>
+    <figcaption>شجرة أنواع الـ attributes (زي الرسمة في المحاضرة + تفصيل الـ interval/ratio)</figcaption>
+  </figure>
+
+  <h3>(أ) Qualitative — الصفات اللي مش أرقام بالمعنى الحسابي</h3>
+  <div class="grid3">
+    <div class="card b"><h4 class="en">Nominal</h4>
+      <p><b>Categories, states, or "names of things"</b> — مفيش ترتيب.</p>
+      <p class="en" style="direction:ltr;text-align:left;font-size:9pt;font-weight:500">Hair_color = {auburn, black, blond, brown, grey, red, white}; marital status, occupation, <b>ID numbers, zip codes</b></p></div>
+    <div class="card b"><h4 class="en">Binary</h4>
+      <p><span class="en">Nominal</span> attribute بـ <b>حالتين بس (0 و 1)</b>.</p>
+      <p><b>Symmetric:</b> الحالتين مهمين بنفس القدر (مثال: <span class="en">Gender</span>).</p>
+      <p><b>Asymmetric:</b> مش بنفس الأهمية (مثال: <span class="en">medical test positive vs negative</span>). <b>Convention:</b> نديّ الـ <b>1</b> للنتيجة الأهم (مثلاً HIV positive).</p></div>
+    <div class="card b"><h4 class="en">Ordinal</h4>
+      <p>القيم لها <b>ترتيب معنوي (ranking)</b> بس <b>الفرق بين قيمتين متتاليتين مش معروف</b>.</p>
+      <p class="en" style="direction:ltr;text-align:left;font-size:9pt;font-weight:500">Size = {small, medium, large}, grades, army rankings</p></div>
+  </div>
+
+  <h3>(ب) Quantitative (Numeric) — أرقام فعلاً</h3>
+  <div class="grid2">
+    <div class="card o"><h4 class="en">Interval-scaled</h4>
+      <ul><li>بتتقاس على مقياس <b>وحداته متساوية</b> (<span class="en">equal-sized units</span>) والقيم ليها ترتيب.</li>
+      <li><b>No true zero-point</b> (الصفر مش معناه "مفيش حاجة").</li>
+      <li>أمثلة: <span class="en">Temperature in °C or °F, calendar dates</span>.</li></ul></div>
+    <div class="card o"><h4 class="en">Ratio-scaled</h4>
+      <ul><li>ليه <b>inherent zero-point</b> (صفر حقيقي).</li>
+      <li>تقدر تقول إن قيمة "ضعف" قيمة تانية: <span class="en">10 K is twice as high as 5 K</span>.</li>
+      <li>أمثلة: <span class="en">Temperature in Kelvin, length, counts, monetary quantities</span>.</li></ul></div>
+  </div>
+  <div class="box tip"><span class="tag">Simple idea</span>
+    <p>ليه 20°C مش "ضعف" 10°C؟ لأن الصفر في Celsius <b>اتحدد اعتباطي</b> (تجمّد المية). لكن في Kelvin الصفر هو "انعدام الحرارة" فعلاً، فـ 10K ضعف 5K. وفلوسك: 0 جنيه يعني معاكش فلوس، و200 ضعف 100 ← <span class="en">Ratio</span>.</p>
+  </div>
+
+  <h3>(ج) Discrete vs Continuous</h3>
+  <table class="en-t t-teal">
+    <tr><th></th><th>Discrete attribute</th><th>Continuous attribute</th></tr>
+    <tr><td class="k">Values</td><td>Only a <b>finite or countably infinite</b> set of values</td><td>Has <b>real numbers</b> as values</td></tr>
+    <tr><td class="k">Examples</td><td>Zip codes, profession, set of words in a collection of documents</td><td>Temperature, height, weight</td></tr>
+    <tr><td class="k">Representation</td><td>Sometimes <b>integer variables</b>; <b>binary attributes are a special case</b> of discrete</td><td>Typically <b>floating-point variables</b> (practically measured with a finite number of digits)</td></tr>
+  </table>
+
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <ul>
+      <li><b>ID numbers / zip codes</b> = <span class="en">Nominal</span> (حتى لو شكلهم أرقام — مش بتجمعهم ولا بتقارن). وفي نفس الوقت <span class="en">Discrete</span> من ناحية القيم.</li>
+      <li><b>Celsius/Fahrenheit/dates</b> = <span class="en">Interval</span> · <b>Kelvin/length/counts/money</b> = <span class="en">Ratio</span>.</li>
+      <li><b>Grades / army rank / small-medium-large</b> = <span class="en">Ordinal</span> (ترتيب بدون مسافات معروفة).</li>
+      <li><b>Gender</b> = <span class="en">Symmetric binary</span> · <b>Test positive/negative</b> = <span class="en">Asymmetric binary</span>.</li>
+      <li>الـ <span class="en">Binary</span> هو <span class="en">Nominal</span> بحالتين بس.</li>
+    </ul>
+  </div>
+
+  <table class="en-t center">
+    <tr><th>Type</th><th>Order?</th><th>Equal gaps?</th><th>True zero?</th><th>Example</th></tr>
+    <tr><td class="k">Nominal</td><td>No</td><td>—</td><td>—</td><td>Hair color, zip code</td></tr>
+    <tr><td class="k">Ordinal</td><td>Yes</td><td>Not known</td><td>—</td><td>Grades, size</td></tr>
+    <tr><td class="k">Interval</td><td>Yes</td><td>Yes</td><td>No</td><td>°C, dates</td></tr>
+    <tr><td class="k">Ratio</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Kelvin, length, money</td></tr>
+  </table>
+</section>
+
+<!-- ======================= CHAPTER 4 ======================= -->
+<section class="chapter" id="ch4">
+  <div class="chap-head"><div class="num">4</div><div><h1>Requirements → Collection → Scraping → Understanding</h1><p class="sub">Lecture 2 (Part 1) — خطوات 3 و4 و5 من IBM methodology</p></div></div>
+
+  <figure>
+    <svg viewBox="0 0 700 80" width="100%" role="img" aria-label="Where we are in IBM methodology">
+      <g font-size="11" font-weight="700" text-anchor="middle" fill="#64748b">
+        <rect x="5" y="20" width="95" height="40" rx="8" fill="#e2e8f0"/><text x="52" y="44">1 Business</text>
+        <rect x="108" y="20" width="95" height="40" rx="8" fill="#e2e8f0"/><text x="155" y="44">2 Analytic</text>
+        <rect x="211" y="20" width="110" height="40" rx="8" fill="#0f766e"/><text x="266" y="44" fill="#fff">3 Data Requirements</text>
+        <rect x="329" y="20" width="100" height="40" rx="8" fill="#0f766e"/><text x="379" y="44" fill="#fff">4 Collection</text>
+        <rect x="437" y="20" width="110" height="40" rx="8" fill="#0f766e"/><text x="492" y="44" fill="#fff">5 Understanding</text>
+        <rect x="555" y="20" width="60" height="40" rx="8" fill="#e2e8f0"/><text x="585" y="44">6–8</text>
+        <rect x="623" y="20" width="72" height="40" rx="8" fill="#e2e8f0"/><text x="659" y="44">9–10</text>
+      </g>
+      <text x="350" y="12" font-size="10.5" text-anchor="middle" fill="#0f766e" font-weight="700">▼ احنا هنا: الخطوات 3 → 5</text>
+    </svg>
+  </figure>
+
+  <h2>4.1 <span class="en">Step 3 — Data Requirements</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb">The chosen <b>analytical method indicates the necessary data content, formats and sources</b> to be gathered. During this process, find the answers to <b>what, where, when, why, how &amp; who</b>. Here you define the data you need to solve the business problem — the <b>format</b> of data and <b>what particular data</b> should be collected.</div>
+  </div>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>داتا ساينتست في بنك عايز يتنبأ بأهلية القرض (<span class="en">predict loan eligibility</span>) ← محتاج: <b>monthly income, profession, age, years in the country</b>.</p>
+  </div>
+  <div class="box tip"><span class="tag">Simple idea</span><p>الـ <span class="en">Data Requirements</span> هي "قايمة المشتريات": قبل ما تنزل السوق (تجمع الداتا) لازم تعرف إنت محتاج إيه بالظبط. والـ approach اللي اخترته في الخطوة 2 هو اللي بيحدد القايمة.</p></div>
+
+  <h2>4.2 <span class="en">Step 4 — Data Collection</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb"><b>Data collection</b> is the process of <b>collecting, measuring and analyzing</b> different types of information using a set of <b>standard validated techniques</b>. The main objective is to gather <b>information-rich and reliable data</b> and analyze it to make critical business decisions.</div>
+  </div>
+  <ul>
+    <li>بتيجي بعد ما تظبط الـ requirements. ممكن تكون <b>live streamed data</b> من streaming analytics services، أو الشركة تدّيك الـ dataset، أو تستخدم <b>web scraping</b> (للـ textual/digital data).</li>
+    <li>معظم الداتا في الخطوة دي <b>raw</b> ← بعدها لازم <b>cleaning و processing</b> عشان تبقى مفيدة.</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 700 215" width="100%" role="img" aria-label="Primary vs secondary data collection">
+      <g font-weight="700" font-size="12.5" text-anchor="middle" fill="#fff">
+        <rect x="260" y="5" width="180" height="34" rx="9" fill="#14213d"/><text x="350" y="27">Data Collection</text>
+        <rect x="110" y="62" width="170" height="34" rx="9" fill="#2563eb"/><text x="195" y="84">Primary</text>
+        <rect x="420" y="62" width="170" height="34" rx="9" fill="#0f766e"/><text x="505" y="84">Secondary</text>
+      </g>
+      <g stroke="#94a3b8" stroke-width="2" fill="none"><path d="M350,39 V50 H195 V62"/><path d="M350,50 H505 V62"/></g>
+      <g font-size="11.5" font-weight="600" text-anchor="middle">
+        <g><rect x="5" y="125" width="130" height="30" rx="8" fill="#dbeafe"/><text x="70" y="145">Interviews</text>
+        <rect x="140" y="125" width="130" height="30" rx="8" fill="#dbeafe"/><text x="205" y="145">Observations</text>
+        <rect x="5" y="162" width="130" height="30" rx="8" fill="#dbeafe"/><text x="70" y="182">Surveys / Questionnaires</text>
+        <rect x="140" y="162" width="130" height="30" rx="8" fill="#dbeafe"/><text x="205" y="182">Focus groups</text>
+        <rect x="72" y="198" width="130" height="0" /></g>
+        <g><rect x="400" y="125" width="105" height="30" rx="8" fill="#ccfbf1"/><text x="452" y="145">Internet</text>
+        <rect x="510" y="125" width="185" height="30" rx="8" fill="#ccfbf1"/><text x="602" y="145">Government archives</text>
+        <rect x="400" y="162" width="105" height="30" rx="8" fill="#ccfbf1"/><text x="452" y="182">Libraries</text></g>
+      </g>
+      <g stroke="#94a3b8" stroke-width="2" fill="none"><path d="M195,96 V110 H70 V125"/><path d="M195,110 H205 V125"/><path d="M195,110 H70 V162"/><path d="M195,110 H205 V162" /><path d="M505,96 V110 H452 V125"/><path d="M505,110 H602 V125"/><path d="M505,110 H452 V162"/></g>
+      <text x="195" y="212" text-anchor="middle" font-size="10.5" fill="#475569">+ Oral histories</text>
+    </svg>
+    <figcaption>Primary methods: interviews, observations, surveys/questionnaires, focus groups, oral histories — Secondary: internet, government archives, libraries</figcaption>
+  </figure>
+
+  <div class="grid2">
+    <div class="card b">
+      <h4>Primary data collection</h4>
+      <div class="enb" style="font-size:9pt">Data collected <b>first-hand directly from the main source</b>; data that has <b>never been used in the past</b>; generally regarded as <b>the best kind</b> of data in research.</div>
+      <p>تنقسم إلى: <span class="en">quantitative methods</span> (بتتعامل مع حاجات تتعدّ) و <span class="en">qualitative methods</span> (مش لازم تكون أرقام).</p>
+    </div>
+    <div class="card g">
+      <h4>Secondary data collection</h4>
+      <div class="enb" style="font-size:9pt">Data that has <b>already been collected by someone else</b>; <b>much more inexpensive and easier</b> to collect than primary data.</div>
+    </div>
+  </div>
+
+  <h3>Primary methods — بالتفصيل</h3>
+  <table class="en-t t-blue">
+    <tr><th style="width:20%">Method</th><th>Details (exam wording)</th></tr>
+    <tr><td class="k">1. Interviews</td><td>A <b>direct</b> method: the interviewer asks, the interviewee responds; <b>high flexibility</b> (questions can be adjusted anytime).<br>
+      • <b>Structured:</b> specific set of questions, <b>same order to all respondents</b> → allows comparison between participants.<br>
+      • <b>Unstructured:</b> no fixed set; <b>free-flowing conversation</b>; the interviewer controls/steers the discussion based on answers.<br>
+      • <b>Semi-structured:</b> combines both — pre-determined questions + additional questions based on answers.</td></tr>
+    <tr><td class="k">2. Observations</td><td>Researchers observe a situation and record findings; <b>controlled</b> (everyone knows they're observed) vs <b>uncontrolled</b> (no one knows).<br>
+      • <b>Simple (non-participant):</b> observe from a distance without participating (avoid influencing behavior).<br>
+      • <b>Participant:</b> researcher participates in the activity; deeper understanding of behaviors and relationships.<br>
+      • <b>Structured:</b> pre-established plan/methodology (decide in advance what &amp; how to record).<br>
+      • <b>Unstructured:</b> flexible and spontaneous, no pre-set plan; record everything that might be relevant.</td></tr>
+    <tr><td class="k">3. Surveys &amp; Questionnaires</td><td>Broad perspective from <b>large groups</b>; face-to-face, mailed, or posted on the internet to reach respondents anywhere.</td></tr>
+    <tr><td class="k">4. Focus groups</td><td>Similar to an interview but with a <b>group who share something in common</b>; gives better understanding of <b>why</b> a certain group thinks in a particular way.</td></tr>
+    <tr><td class="k">5. Oral histories</td><td>Like interviews/focus groups but <b>more precisely defined</b> — linked to <b>a single phenomenon</b>; collects opinions and personal experiences of people involved in a particular event.</td></tr>
+  </table>
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <p>الفرق بين الـ <b>3 interviews</b>: <span class="en">structured</span> = نفس الأسئلة بنفس الترتيب · <span class="en">unstructured</span> = كلام حر · <span class="en">semi-structured</span> = الاتنين. وفي <b>observation</b>: <span class="en">simple (non-participant)</span> = بتتفرج من بعيد · <span class="en">participant</span> = داخل في النشاط. و<b>focus group</b> مجموعة عندها حاجة مشتركة، أما <b>oral history</b> مرتبطة بحدث واحد.</p>
+  </div>
+
+  <h3>Secondary methods</h3>
+  <table class="en-t t-teal">
+    <tr><th style="width:22%">Source</th><th>Notes</th></tr>
+    <tr><td class="k">Internet</td><td>One of the <b>most popular</b> secondary methods; large pool of free and paid resources easily accessed.</td></tr>
+    <tr><td class="k">Government archives</td><td>Lots of data; the most important advantage: <b>authentic and verifiable</b>. Challenge: not always readily available.</td></tr>
+    <tr><td class="k">Libraries</td><td>Researchers donate copies of academic research; important and <b>authentic</b> information for different research contexts.</td></tr>
+  </table>
+
+  <h2>4.3 <span class="en">Data Scraping &amp; Web Scraping</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb"><b>Data scraping</b> is a technology that extracts data — <b>in large quantities and well-organized formats</b> — from websites <b>in an automated manner</b>. Extracted data supports business analysis to draw insights and make marketing decisions.<br><br>
+    <b>Web scraping</b> is an automated technique to extract data from websites <b>instead of manual copy-paste</b> (slow &amp; repetitive). Tools can be <b>custom-built</b> or used across multiple sites. Many websites restrict saving data, so scraping offers a way to access information <b>within legal limits</b>.</div>
+  </div>
+
+  <h3>Uses of web scraping</h3>
+  <div class="chips"><span class="chip">Market &amp; competitor analysis</span><span class="chip">Financial data collection</span><span class="chip">Social media monitoring</span><span class="chip">SEO tracking</span><span class="chip">Research &amp; machine learning</span></div>
+  <ul>
+    <li><b>Market &amp; Competitor Analysis:</b> scrape product prices, customer reviews, competitor offerings.</li>
+    <li><b>Financial Data Collection:</b> real-time stock prices, historical data, financial reports.</li>
+    <li><b>Social Media Monitoring:</b> track trending topics, customer sentiment, campaign effectiveness.</li>
+    <li><b>SEO Tracking:</b> monitor how websites rank on search engines for keywords over time.</li>
+    <li><b>Research &amp; Machine Learning:</b> collect large datasets to train ML models.</li>
+  </ul>
+  <p>الخلاصة: scraping بيخلّي جمع الداتا <b>أسرع، scalable، وأدق</b> من الطرق اليدوية.</p>
+
+  <h3>Techniques</h3>
+  <table class="en-t t-blue">
+    <tr><th style="width:26%">Technique</th><th>When / what</th></tr>
+    <tr><td class="k">Manual extraction</td><td>Copy &amp; paste by hand — simple but <b>slow, inefficient</b>, impractical for large-scale or frequently updated data.</td></tr>
+    <tr><td class="k">HTML parsing</td><td>Extract data from the <b>raw HTML of static web pages</b>.</td></tr>
+    <tr><td class="k">DOM parsing</td><td>Interact with the Document Object Model to extract <b>dynamically loaded content</b>.</td></tr>
+    <tr><td class="k">API access</td><td>Provides <b>structured and reliable</b> data directly — <b>often the preferred method over scraping</b> (when available).</td></tr>
+    <tr><td class="k">Headless browsers (e.g., Selenium)</td><td>Simulate user interactions in a browser → extract from <b>JavaScript-heavy / interactive</b> sites.</td></tr>
+  </table>
+  <p>اختيار التقنية بيعتمد على <b>تعقيد الموقع وشكل الداتا</b>.</p>
+
+  <h3>Popular tools</h3>
+  <table class="en-t t-teal">
+    <tr><th style="width:26%">Tool</th><th>What it is</th></tr>
+    <tr><td class="k">Beautiful Soup (Python)</td><td>Beginner-friendly library to <b>parse HTML and XML</b>; navigate page structure and extract elements by tags &amp; classes.</td></tr>
+    <tr><td class="k">Requests (Python)</td><td>Used <b>with Beautiful Soup</b> — sends <b>HTTP requests</b> and fetches HTML content.</td></tr>
+    <tr><td class="k">Scrapy</td><td><b>Advanced Python framework</b>: crawling, handling requests/responses, <b>managing pipelines</b>, storing scraped data.</td></tr>
+    <tr><td class="k">Selenium</td><td>Web automation tool controlling a browser like a real user — for <b>JavaScript-loaded content</b> (infinite scrolling, dropdown menus).</td></tr>
+    <tr><td class="k">Playwright</td><td><b>Newer alternative to Selenium</b>; modern web standards, better performance for dynamic content with headless browser control.</td></tr>
+    <tr><td class="k">Commercial platforms</td><td><b>Bright Data</b> (formerly Luminati — premium proxy-based) · <b>Import.io</b> (scraping <b>without coding</b>, for non-programmers) · <b>Webhose.io</b> (structured data feeds for news, blogs) · <b>Dexi.io &amp; ScrapingHub</b> (cloud-based; scheduling, storage, proxy support)</td></tr>
+  </table>
+  <div class="box note"><span class="tag">Note</span><p>تحذير من المحاضرة: <span class="en">respect website rules, copyright laws and responsible data usage to avoid misuse or legal violations</span>.</p></div>
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <p><b>Beautiful Soup</b> بتعمل <u>parse</u> للـ HTML لكن <b>Requests</b> هي اللي بتجيب الصفحة. لو الموقع <b>JavaScript-heavy</b> أو فيه infinite scrolling ← <b>Selenium/Playwright</b>. ولو عايز scraping من غير كود ← <b>Import.io</b>. ولو الـ <b>API</b> متاح ← هو الأفضل.</p>
+  </div>
+
+  <h2>4.4 <span class="en">Step 5 — Data Understanding</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb">Data understanding answers the question: <b>"is the data collected representative of the problem to be solved?"</b> <b>Descriptive statistics</b> calculates measures applied over data to assess the <b>content and quality</b>. This step may lead to <b>reverting back to the previous step</b> for correction.</div>
+  </div>
+  <ul>
+    <li>أول سؤال تسأله لنفسك: <span class="en">"is this data going to answer the problem that I am having?"</span> وبعدها تبدأ <b><span class="en">Exploratory Data Analysis (EDA)</span></b>.</li>
+    <li>في الـ <span class="en">EDA</span> بتعمل <b>visualizations و graphs</b> عشان تلاقي العلاقات بين الأعمدة (مثال: <b>المرتب مقابل سنين الخبرة</b>).</li>
+    <li>الخطوة دي ممكن ترجّعك لـ <span class="en">Data Collection</span> (السهم الدوبل في الـ diagram) لو الداتا ناقصة أو مش مناسبة.</li>
+  </ul>
+</section>
+
+<!-- ======================= CHAPTER 5 ======================= -->
+<section class="chapter" id="ch5">
+  <div class="chap-head"><div class="num">5</div><div><h1>Data Exploration &amp; Basic Statistics</h1><p class="sub">Lecture 2 (Part 2) — mean / median / mode والـ skewness (فيها حسابات!)</p></div></div>
+
+  <h2>5.1 <span class="en">Data Exploration</span></h2>
+  <div class="box def"><span class="tag">Definition</span>
+    <div class="enb">A <b>preliminary exploration</b> of the data to better understand its characteristics. Key motivations: helping to <b>select the right tool</b> for preprocessing or analysis, and making use of <b>humans' abilities to recognize patterns</b> (people can recognize patterns not captured by data analysis tools). Related to <b>Exploratory Data Analysis (EDA)</b>.</div>
+  </div>
+
+  <h2>5.2 <span class="en">Basic Statistical Descriptions of Data</span></h2>
+  <ul>
+    <li><b>Motivation:</b> نفهم الداتا أحسن: <span class="en">central tendency, variation and spread</span>.</li>
+    <li><b>Data dispersion characteristics:</b> <span class="en">median, max, min, quantiles, outliers, variance, etc.</span></li>
+    <li>الـ <span class="en">numerical dimensions</span> بتتقابل مع <b>sorted intervals</b>، والتحليل بيتعمل بـ <span class="en">boxplot</span> أو <span class="en">quantile analysis</span>.</li>
+  </ul>
+  <div class="box tip"><span class="tag">Simple idea</span>
+    <p>عشان توصف ناس في فصل بسرعة: <b>الـ center</b> (متوسط الأعمار كام؟) = <span class="en">central tendency</span> — و<b>الانتشار</b> (فيه واحد عمره 10 وواحد 70؟) = <span class="en">dispersion</span>.</p>
+  </div>
+
+  <h2>5.3 <span class="en">Measuring the Central Tendency</span></h2>
+
+  <h3>① Mean (algebraic measure)</h3>
+  <div class="formula"><span class="lbl">Sample mean</span>
+    x̄ = <span class="frac"><span>1</span><span>n</span></span> <span style="font-size:1.25em">Σ</span><sub style="font-size:.6em">i=1</sub><sup style="font-size:.6em">n</sup> x<sub>i</sub>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; <span class="lbl" style="display:inline">Population mean</span> μ = <span class="frac"><span>Σx</span><span>N</span></span>
+  </div>
+  <p><b>n</b> = حجم الـ <span class="en">sample</span> · <b>N</b> = حجم الـ <span class="en">population</span>.</p>
+
+  <h4>Weighted arithmetic mean</h4>
+  <div class="enb">A type of average used when <b>some values contribute more</b> to the final result than others — each value has a <b>weight</b> representing its importance.</div>
+  <div class="formula"><span class="lbl">Weighted mean</span> x̄<sub>w</sub> = <span class="frac"><span>Σ w<sub>i</sub> x<sub>i</sub></span><span>Σ w<sub>i</sub></span></span></div>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>Homework 80 (w=1) · Project 90 (w=3) · Final 70 (w=2):</p>
+    <div class="formula sm">x̄<sub>w</sub> = <span class="frac"><span>(1×80) + (3×90) + (2×70)</span><span>1 + 3 + 2</span></span> = <span class="frac"><span>490</span><span>6</span></span> = <b>81.67</b></div>
+  </div>
+
+  <h4>Trimmed mean</h4>
+  <div class="enb"><b>Trimmed mean:</b> chopping (removing) the <b>extreme values</b> from both ends, then averaging the rest.</div>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>Data: 10, 12, 13, 15, 16, 100. نشيل <b>1 value من كل طرف</b> (10 و 100) ← باقي 12, 13, 15, 16:</p>
+    <div class="formula sm">x̄<sub>t</sub> = <span class="frac"><span>12+13+15+16</span><span>4</span></span> = <b>14</b> &nbsp;&nbsp;vs&nbsp;&nbsp; ordinary mean = <span class="frac"><span>166</span><span>6</span></span> ≈ <b>27.7</b></div>
+    <p>يعني الـ trimming شال تأثير القيمة الشاذة (100).</p>
+  </div>
+
+  <h3>② Median</h3>
+  <div class="enb"><b>Median:</b> the <b>middle value</b> if the number of values is odd, or the <b>average of the two middle values</b> otherwise (after sorting). For <b>grouped data</b> it is estimated by <b>interpolation</b>.</div>
+  <div class="grid2">
+    <div class="box ex" style="margin:4px 0"><span class="tag">Odd</span><p class="en" style="direction:ltr;text-align:left;font-weight:500">data: 4, 7, 9, 10, 12 → median = 3rd value = <b>9</b></p></div>
+    <div class="box ex" style="margin:4px 0"><span class="tag">Even</span><p class="en" style="direction:ltr;text-align:left;font-weight:500">data: 3, 5, 7, 9, 11, 13 → (7 + 9)/2 = <b>8</b></p></div>
+  </div>
+
+  <h4>Median for grouped data</h4>
+  <div class="formula"><span class="lbl">Grouped median</span>
+    median = L<sub>1</sub> + <span style="font-size:1.6em;vertical-align:middle">(</span><span class="frac"><span>N/2 − (Σ freq)<sub>l</sub></span><span>freq<sub>median</sub></span></span><span style="font-size:1.6em;vertical-align:middle">)</span> × width
+  </div>
+  <table class="en-t t-blue" style="max-width:520px;margin-inline:auto">
+    <tr><th>Symbol</th><th>Meaning</th></tr>
+    <tr><td><b>L</b> (L<sub>1</sub>)</td><td>Lower boundary of the <b>median class</b></td></tr>
+    <tr><td><b>N</b></td><td>Total number of observations (sum of frequencies)</td></tr>
+    <tr><td><b>CF</b> = (Σfreq)<sub>l</sub></td><td>Cumulative frequency <b>before</b> the median class</td></tr>
+    <tr><td><b>f</b> = freq<sub>median</sub></td><td>Frequency of the <b>median class</b></td></tr>
+    <tr><td><b>w</b> (width)</td><td>Class width (upper limit − lower limit)</td></tr>
+  </table>
+  <div class="box rule"><span class="tag">Steps</span>
+    <ol><li>أوجد <b>N</b> = مجموع الـ frequencies.</li><li>احسب <b>N/2</b>.</li><li>حدد الـ <b>median class</b> = أول class الـ <b>cumulative frequency فيه ≥ N/2</b>.</li><li>عوّض في القانون.</li></ol>
+  </div>
+  <div class="box ex"><span class="tag">Example (solved)</span>
+    <table class="en-t center" style="max-width:420px;margin:4px auto">
+      <tr><th>Class</th><th>Frequency f</th><th>Cumulative Freq</th></tr>
+      <tr><td>0–10</td><td>5</td><td>5</td></tr>
+      <tr><td>10–20</td><td>8</td><td>13</td></tr>
+      <tr style="background:#fef3c7"><td><b>20–30</b></td><td><b>12</b></td><td><b>25</b> ← first ≥ 20</td></tr>
+      <tr><td>30–40</td><td>10</td><td>35</td></tr>
+      <tr><td>40–50</td><td>5</td><td>40</td></tr>
+    </table>
+    <p>N = 40 ← N/2 = <b>20</b> ← الـ median class = <b>20–30</b> (لأن الـ CF بيوصل 25 ≥ 20). L = 20 · CF قبلها = 13 · f = 12 · w = 10:</p>
+    <div class="formula sm">Median = 20 + <span class="frac"><span>20 − 13</span><span>12</span></span> × 10 = 20 + <span class="frac"><span>7</span><span>12</span></span>×10 = 20 + 5.83 = <b>25.83</b></div>
+  </div>
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <p>في الـ grouped median: الـ <b>CF</b> اللي بنطرحه هو <b>الـ cumulative frequency قبل</b> الـ median class (مش اللي عندها). وابحث بـ <b>N/2</b> مش N. وماتنساش تضرب في الـ <b>width</b> في الآخر.</p>
+  </div>
+
+  <h3>③ Mode</h3>
+  <div class="enb"><b>Mode:</b> the value that <b>occurs most frequently</b> in the data. Modes describe how many peaks a dataset has.</div>
+  <table class="en-t t-teal center">
+    <tr><th>Type</th><th>Meaning</th><th>Example</th><th>Shape</th></tr>
+    <tr><td class="k">Unimodal</td><td>One mode</td><td>2, 3, <b>4, 4</b>, 5, 6, 7 → mode = 4</td><td>one peak</td></tr>
+    <tr><td class="k">Bimodal</td><td>Two modes (same highest frequency)</td><td>2, 3, <b>4, 4</b>, <b>6, 6</b>, 7, 8 → modes = 4 and 6</td><td>two peaks</td></tr>
+    <tr><td class="k">Trimodal</td><td>Three modes</td><td>2, <b>3, 3</b>, <b>4, 4</b>, <b>5, 5</b>, 6 → modes = 3, 4, 5</td><td>three peaks</td></tr>
+  </table>
+  <div class="formula"><span class="lbl">Empirical formula (moderately skewed data)</span>
+    mean − mode = 3 × (mean − median) &nbsp;&nbsp;⟹&nbsp;&nbsp; mode = 3·median − 2·mean
+  </div>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>Mean = 40, median = 35 ← Mode = 3(35) − 2(40) = 105 − 80 = <b>25</b>.</p>
+  </div>
+
+  <h2>5.4 <span class="en">Skewed Distributions — Mean, Median, Mode shift</span></h2>
+  <figure>
+    <svg viewBox="0 0 700 235" width="100%" role="img" aria-label="Negatively skewed, normal, positively skewed">
+      <g font-weight="700" text-anchor="middle">
+        <!-- negative -->
+        <g transform="translate(5,10)">
+          <path d="M10,160 L215,160" stroke="#334155" stroke-width="2"/>
+          <path d="M10,158 C60,156 90,150 118,118 C138,78 150,32 168,32 C186,32 196,80 208,158" fill="#fce7f3" stroke="#be185d" stroke-width="3"/>
+          <g stroke-width="2" stroke-dasharray="4 3"><path d="M128,160 V105" stroke="#2563eb"/><path d="M149,160 V70" stroke="#16a34a"/><path d="M168,160 V32" stroke="#dc2626"/></g>
+          <g font-size="11"><text x="116" y="98" fill="#2563eb">Mean</text><text x="147" y="62" fill="#16a34a">Median</text><text x="172" y="24" fill="#dc2626">Mode</text></g>
+          <text x="112" y="182" font-size="12" fill="#1e293b">Negatively skewed</text><text x="112" y="198" font-size="10.5" fill="#64748b">(tail on the left)</text>
+        </g>
+        <!-- normal -->
+        <g transform="translate(240,10)">
+          <path d="M10,160 L215,160" stroke="#334155" stroke-width="2"/>
+          <path d="M10,158 C50,158 75,110 96,62 C102,44 106,32 112,32 C118,32 122,44 128,62 C149,110 174,158 214,158" fill="#e0f2fe" stroke="#0369a1" stroke-width="3"/>
+          <path d="M112,160 V32" stroke="#7c3aed" stroke-width="2" stroke-dasharray="4 3"/>
+          <g font-size="11" fill="#7c3aed"><text x="112" y="10">Mean = Median = Mode</text></g>
+          <text x="112" y="182" font-size="12" fill="#1e293b">Normal (no skew)</text><text x="112" y="198" font-size="10.5" fill="#64748b">(symmetric)</text>
+        </g>
+        <!-- positive -->
+        <g transform="translate(475,10)">
+          <path d="M10,160 L215,160" stroke="#334155" stroke-width="2"/>
+          <path d="M12,158 C24,80 34,32 52,32 C70,32 82,78 102,118 C130,150 160,156 212,158" fill="#dcfce7" stroke="#15803d" stroke-width="3"/>
+          <g stroke-width="2" stroke-dasharray="4 3"><path d="M52,160 V32" stroke="#dc2626"/><path d="M73,160 V70" stroke="#16a34a"/><path d="M97,160 V108" stroke="#2563eb"/></g>
+          <g font-size="11"><text x="40" y="24" fill="#dc2626">Mode</text><text x="76" y="62" fill="#16a34a">Median</text><text x="100" y="100" fill="#2563eb">Mean</text></g>
+          <text x="112" y="182" font-size="12" fill="#1e293b">Positively skewed</text><text x="112" y="198" font-size="10.5" fill="#64748b">(tail on the right)</text>
+        </g>
+      </g>
+    </svg>
+    <figcaption>الـ <b>mean</b> دايماً بيتشدّ ناحية الـ <b>tail</b> (الذيل)، والـ <b>mode</b> عند القمة، والـ <b>median</b> في النص بينهم</figcaption>
+  </figure>
+  <table class="en-t t-blue center">
+    <tr><th>Distribution</th><th>Tail</th><th>Order</th></tr>
+    <tr><td class="k">Positively skewed (right-skewed)</td><td>Right</td><td><b>Mode &lt; Median &lt; Mean</b></td></tr>
+    <tr><td class="k">Symmetric / Normal</td><td>None</td><td><b>Mean = Median = Mode</b></td></tr>
+    <tr><td class="k">Negatively skewed (left-skewed)</td><td>Left</td><td><b>Mean &lt; Median &lt; Mode</b></td></tr>
+  </table>
+  <div class="box tip"><span class="tag">Simple idea</span>
+    <p>تخيل مرتبات شركة: قلة بياخدوا ملايين ← الذيل ناحية اليمين (positive skew) ← الـ <span class="en">mean</span> بيتشدّ لفوق وبيبقى أكبر من الـ median. عشان كده في المرتبات بنفضّل الـ <b>median</b> — لأنه <b>robust</b> مش بيتأثر بالـ outliers.</p>
+  </div>
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <p>الـ <b>mean</b> هو الأكثر تأثراً بالـ <span class="en">outliers</span>، والـ <b>median</b> الأقل، والـ <b>trimmed mean</b> علاج لمشكلة الـ outliers. والـ <b>weighted mean</b> بيتحسب بقسمة <b>Σwx على Σw</b> (مش على n).</p>
+  </div>
+</section>
+
+<!-- ======================= CHAPTER 6 ======================= -->
+<section class="chapter" id="ch6">
+  <div class="chap-head"><div class="num">6</div><div><h1>Similarity &amp; Dissimilarity</h1><p class="sub">Lecture 3 — أكتر chapter فيه مسائل وقوانين. ركّز فيه!</p></div></div>
+
+  <h2>6.1 <span class="en">Basics</span></h2>
+  <div class="grid3">
+    <div class="card"><h4>Similarity</h4><p class="en" style="direction:ltr;text-align:left">Numerical measure of how <b>alike</b> two objects are. Value is <b>higher</b> when objects are more alike. Often in range <b>[0, 1]</b>.</p></div>
+    <div class="card"><h4>Dissimilarity</h4><p class="en" style="direction:ltr;text-align:left">Measure of how <b>different</b> two objects are. <b>Lower</b> when more alike. <b>Minimum = 0</b>; the upper limit varies.</p></div>
+    <div class="card"><h4>Proximity</h4><p class="en" style="direction:ltr;text-align:left">Refers to <b>either</b> a similarity <b>or</b> a dissimilarity.</p></div>
+  </div>
+  <div class="formula sm">For [0,1] scaling: &nbsp; <b>sim = 1 − d</b> &nbsp;&nbsp;and&nbsp;&nbsp; <b>d = 1 − sim</b></div>
+
+  <h3>Matrices</h3>
+  <div class="grid2">
+    <div class="card"><h4>Data matrix</h4><ul class="en" style="direction:ltr;text-align:left"><li><b>N objects × p attributes</b></li><li><b>Two-mode</b> (rows ≠ columns)</li></ul></div>
+    <div class="card"><h4>Dissimilarity matrix</h4><ul class="en" style="direction:ltr;text-align:left"><li><b>N × N</b>, <b>triangular</b> (symmetric)</li><li><b>Single-mode</b></li><li><b>Diagonal = 0</b> (object with itself)</li><li>Used in <b>clustering</b> &amp; <b>classification</b></li></ul></div>
+  </div>
+
+  <h2>6.2 <span class="en">Numeric attributes — Minkowski distance family</span></h2>
+  <div class="formula"><span class="lbl">Minkowski distance</span>
+    d(x,y) = <span style="font-size:1.4em">(</span> Σ<sub style="font-size:.6em">i=1</sub><sup style="font-size:.6em">p</sup> |x<sub>i</sub> − y<sub>i</sub>|<sup>h</sup> <span style="font-size:1.4em">)</span><sup>1/h</sup>
+  </div>
+  <table class="en-t t-blue center">
+    <tr><th>h</th><th>Name</th><th>Formula</th><th>Notes</th></tr>
+    <tr><td><b>1</b></td><td class="k">Manhattan (City-block), L1</td><td>Σ |x<sub>i</sub> − y<sub>i</sub>|</td><td><b>Hamming distance</b> (binary vectors) = number of differing bits</td></tr>
+    <tr><td><b>2</b></td><td class="k">Euclidean, L2</td><td>√ Σ (x<sub>i</sub> − y<sub>i</sub>)²</td><td>Straight-line distance</td></tr>
+    <tr><td><b>∞</b></td><td class="k">Supremum, L<sub>max</sub> (L∞)</td><td>max<sub>i</sub> |x<sub>i</sub> − y<sub>i</sub>|</td><td><b>Maximum difference</b> between any attribute</td></tr>
+  </table>
+  <div class="formula sm"><span class="lbl">Weighted Euclidean</span> d(x,y) = √( Σ w<sub>i</sub> (x<sub>i</sub> − y<sub>i</sub>)² ) &nbsp; — attribute أهم ← weight أكبر</div>
+  <div class="box rule"><span class="tag">Properties of a metric (distance)</span>
+    <ol class="en" style="direction:ltr;text-align:left">
+      <li><b>Positive definiteness:</b> d(x,y) ≥ 0, and d(x,y) = 0 only if x = y</li>
+      <li><b>Symmetry:</b> d(x,y) = d(y,x)</li>
+      <li><b>Triangle inequality:</b> d(x,z) ≤ d(x,y) + d(y,z)</li>
+    </ol>
+    <p>لو الـ 3 اتحققوا يبقى <b>metric</b>.</p>
+  </div>
+  <div class="box tip"><span class="tag">Simple idea</span>
+    <p>تخيل شوارع مدينة: <b>Manhattan</b> = تمشي أفقي ورأسي (زي الشوارع) — <b>Euclidean</b> = خط مستقيم بالطيارة — <b>Supremum</b> = أكبر فرق في بُعد واحد بس. ودايماً: <b>L∞ ≤ L2 ≤ L1</b>.</p>
+  </div>
+
+  <h3>Worked example 1 — two points</h3>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>x1 = (1, 2) , x2 = (3, 5):</p>
+    <div class="formula sm">Euclid = √((3−1)² + (5−2)²) = √(4+9) = √13 = <b>3.61</b> &nbsp;|&nbsp; Manhattan = 2 + 3 = <b>5</b> &nbsp;|&nbsp; Supremum = max(2,3) = <b>3</b></div>
+  </div>
+
+  <h3>Worked example 2 — four points</h3>
+  <div class="box ex"><span class="tag">Example</span>
+    <div class="grid2" style="align-items:start">
+      <div>
+        <table class="en-t center"><tr><th>point</th><th>x</th><th>y</th></tr>
+          <tr><td>x1</td><td>1</td><td>2</td></tr><tr><td>x2</td><td>3</td><td>5</td></tr>
+          <tr><td>x3</td><td>2</td><td>0</td></tr><tr><td>x4</td><td>4</td><td>5</td></tr></table>
+        <p style="font-size:9.5pt">خطوات الـ L1 لـ (x1,x3): |1−2| + |2−0| = 1 + 2 = <b>3</b></p>
+      </div>
+      <table class="en-t t-blue center">
+        <tr><th>Pair</th><th>L1</th><th>L2</th><th>L∞</th></tr>
+        <tr><td>x1–x2</td><td>5</td><td>3.61</td><td>3</td></tr>
+        <tr><td>x1–x3</td><td>3</td><td>2.24</td><td>2</td></tr>
+        <tr><td>x1–x4</td><td>6</td><td>4.24</td><td>3</td></tr>
+        <tr><td>x2–x3</td><td>6</td><td>5.10</td><td>5</td></tr>
+        <tr><td>x2–x4</td><td>1</td><td>1.00</td><td>1</td></tr>
+        <tr><td>x3–x4</td><td>7</td><td>5.39</td><td>5</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h2>6.3 <span class="en">Nominal attributes</span></h2>
+  <div class="formula"><span class="lbl">Simple Matching</span>
+    SMC = <span class="frac"><span>m</span><span>p</span></span> &nbsp;&nbsp;|&nbsp;&nbsp; d(i,j) = <span class="frac"><span>p − m</span><span>p</span></span> = 1 − SMC
+  </div>
+  <p><b>m</b> = عدد الـ attributes المتطابقة (matches) · <b>p</b> = إجمالي عدد الـ attributes.</p>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>p = 4 attributes، اتطابق منهم m = 2 ← <b>d = (4−2)/4 = 0.5</b>، و SMC = 0.5.</p>
+  </div>
+  <h4>One-hot (binary encoding) method</h4>
+  <p>نحوّل كل nominal attribute لـ binary columns (واحدة لكل قيمة)، ونحسب <b>عدد الـ bits المختلفة / إجمالي الـ bits</b>.</p>
+  <div class="box ex"><span class="tag">Example (tennis D1 vs D2)</span>
+    <p>بعد الـ one-hot طلع <b>10 bits</b> واختلفوا في <b>4 bits</b> ← d = 4/10 = <b>0.4</b> (بينما الـ simple mismatch على الـ original attributes = 0.5). يعني الطريقتين ممكن يدّوا أرقام مختلفة — اقرأ السؤال يقول إيه.</p>
+  </div>
+
+  <h2>6.4 <span class="en">Binary attributes</span></h2>
+  <h4>Contingency table (objects i and j)</h4>
+  <table class="en-t center" style="max-width:420px;margin-inline:auto">
+    <tr><th></th><th>j = 1</th><th>j = 0</th></tr>
+    <tr><th>i = 1</th><td class="k">q</td><td class="k">r</td></tr>
+    <tr><th>i = 0</th><td class="k">s</td><td class="k">t</td></tr>
+  </table>
+  <p style="text-align:center">q = both 1 · t = both 0 · r, s = mismatch · <b>p = q + r + s + t</b></p>
+  <div class="grid2">
+    <div class="card"><h4>Symmetric binary</h4><p style="font-size:9.5pt">الـ 0 و 1 <b>نفس الأهمية</b> (مثال: gender).</p>
+      <div class="formula sm">SMC = <span class="frac"><span>q + t</span><span>q+r+s+t</span></span><br>d = <span class="frac"><span>r + s</span><span>q+r+s+t</span></span></div></div>
+    <div class="card"><h4>Asymmetric binary</h4><p style="font-size:9.5pt">حالة واحدة نادرة/مهمة (مثال: test positive). <b>t بتتتجاهل</b>. الـ <b>1 = الأهم</b>.</p>
+      <div class="formula sm">Jaccard = <span class="frac"><span>q</span><span>q+r+s</span></span><br>d = <span class="frac"><span>r + s</span><span>q+r+s</span></span></div></div>
+  </div>
+  <div class="box trap"><span class="tag">MCQ Trap</span>
+    <p><b>Symmetric</b> ← الـ denominator فيه <b>t</b> (q+r+s+t). <b>Asymmetric</b> ← <b>من غير t</b> (q+r+s). والـ <b>Jaccard = q/(q+r+s)</b> دي similarity، والـ d = 1 − Jaccard.</p>
+  </div>
+  <div class="box ex"><span class="tag">Example (Jack, Mary, Jim — asymmetric)</span>
+    <table class="en-t center" style="font-size:9pt">
+      <tr><th>Name</th><th>Fever</th><th>Cough</th><th>Test-1</th><th>Test-2</th><th>Test-3</th><th>Test-4</th></tr>
+      <tr><td>Jack</td><td>Y</td><td>N</td><td>P</td><td>N</td><td>N</td><td>N</td></tr>
+      <tr><td>Mary</td><td>Y</td><td>N</td><td>P</td><td>N</td><td>P</td><td>N</td></tr>
+      <tr><td>Jim</td><td>Y</td><td>P</td><td>N</td><td>N</td><td>N</td><td>N</td></tr>
+    </table>
+    <p style="font-size:9.5pt">Y,P = 1 · N = 0.</p>
+    <div class="formula sm">d(Jack,Mary) = <span class="frac"><span>0+1</span><span>2+0+1</span></span> = <b>0.33</b> &nbsp;&nbsp; d(Jack,Jim) = <span class="frac"><span>1+1</span><span>1+1+1</span></span> = <b>0.67</b> &nbsp;&nbsp; d(Jim,Mary) = <span class="frac"><span>1+2</span><span>1+1+2</span></span> = <b>0.75</b></div>
+    <p>أقرب اتنين = Jack و Mary (أقل dissimilarity).</p>
+  </div>
+
+  <h2>6.5 <span class="en">Standardization: z-score &amp; MAD</span></h2>
+  <p>لو الـ attributes بمقاييس مختلفة (income بالآلاف و age بالعشرات)، الـ distance هتتسيطر عليها الأكبر. الحل: <b>نعمل standardization قبل ما نحسب distance</b> عشان كل المتغيرات تساهم بالتساوي.</p>
+  <div class="formula"><span class="lbl">z-score</span>
+    z = <span class="frac"><span>x − μ</span><span>σ</span></span> &nbsp;&nbsp;⟹&nbsp;&nbsp; <b>mean = 0, SD = 1</b>
+  </div>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>x = 70, μ = 60, σ = 5 ← z = (70−60)/5 = <b>2</b> (يعني أعلى من المتوسط بـ 2 SD).</p>
+    <p>مثال Income/Age: income SD = 32,660 (population) و age SD = 15 (sample) ← بعد الـ z-score القيم بقت <b>±1.22</b> و <b>±1.00</b> ← دلوقتي الاتنين بنفس الـ scale.</p>
+  </div>
+  <div class="formula"><span class="lbl">Mean Absolute Deviation (MAD) — more robust than SD</span>
+    s<sub>f</sub> = <span class="frac"><span>1</span><span>n</span></span> Σ |x<sub>if</sub> − m<sub>f</sub>| &nbsp;&nbsp;,&nbsp;&nbsp; z<sub>if</sub> = <span class="frac"><span>x<sub>if</sub> − m<sub>f</sub></span><span>s<sub>f</sub></span></span>
+  </div>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>Data [3, 5, 7] ← m = 5 ← s = (|3−5|+|5−5|+|7−5|)/3 = 4/3 = <b>1.33</b>.</p>
+  </div>
+  <div class="box note"><span class="tag">Note</span>
+    <p>الـ MAD بيستخدم <b>absolute deviation</b> بدل الـ squared ← الـ <b>outliers</b> تأثيرها أقل ← <b>more robust</b>.</p>
+  </div>
+
+  <h2>6.6 <span class="en">Ordinal attributes</span></h2>
+  <ol>
+    <li>استبدل كل قيمة بـ <b>rank r</b> (1 … M).</li>
+    <li>حوّلها لـ [0,1]: <span class="formula sm" style="display:inline-block;margin:0 4px;padding:2px 8px">z = <span class="frac"><span>r − 1</span><span>M − 1</span></span></span></li>
+    <li>عامِلها كـ <b>interval-scaled</b> (استخدم Manhattan/Euclid).</li>
+  </ol>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>Education: High school &lt; Bachelor &lt; Master &lt; PhD ← M = 4 ← <b>0, 0.33, 0.67, 1.0</b>.</p>
+  </div>
+
+  <h2>6.7 <span class="en">Mixed-type attributes</span></h2>
+  <div class="formula"><span class="lbl">Mixed dissimilarity</span>
+    d(i,j) = <span class="frac"><span>Σ<sub>f</sub> δ<sub>ij</sub><sup>(f)</sup> · d<sub>ij</sub><sup>(f)</sup></span><span>Σ<sub>f</sub> δ<sub>ij</sub><sup>(f)</sup></span></span>
+  </div>
+  <ul>
+    <li><b>δ = 1</b> لو القياس موجود (مفيش missing)، و <b>δ = 0</b> لو الـ value ناقصة أو (للـ asymmetric binary) الاتنين 0.</li>
+    <li>كل attribute بيتحسب بالـ rule بتاعه: <b>nominal/binary</b> → 0 لو متطابق و 1 لو مختلف · <b>numeric</b> → |x−y|/(max−min) · <b>ordinal</b> → rank normalization.</li>
+  </ul>
+  <div class="box ex"><span class="tag">Example</span>
+    <p>لو 2 attributes، δ = 1 لكل واحد، و d<sup>(1)</sup> = 0.4 و d<sup>(2)</sup> = 0.3 ← <b>d = 0.7 / 2 = 0.35</b>.</p>
+  </div>
+  <div class="box trap"><span class="tag">Heads-up — slide inconsistency</span>
+    <p>في مثال الـ A/B/C بتاع الـ Euclidean، الأرقام اللي على الـ slide (18.7 / 21.8 / 38.7) <b>مش بتطابق</b> القانون — لما نطبق الـ formula بالظبط بيطلع <b>A–B ≈ 21.21، A–C ≈ 26.93، B–C ≈ 43.87</b>. في الامتحان طبّق القانون، وماتعتمدش على الرقم الأصلي لو الاختيارات قريبة منه.</p>
+  </div>
+
+  <h2>6.8 <span class="en">Which measure for which type? (summary)</span></h2>
+  <table class="en-t t-teal center">
+    <tr><th>Attribute type</th><th>Measure</th></tr>
+    <tr><td class="k">Numeric (interval / ratio)</td><td>Minkowski (Manhattan, Euclidean, Supremum) — <b>after z-score</b></td></tr>
+    <tr><td class="k">Nominal</td><td>Simple Matching: d = (p−m)/p &nbsp;or&nbsp; one-hot</td></tr>
+    <tr><td class="k">Symmetric binary</td><td>SMC: d = (r+s)/(q+r+s+t)</td></tr>
+    <tr><td class="k">Asymmetric binary</td><td>Jaccard: d = (r+s)/(q+r+s)</td></tr>
+    <tr><td class="k">Ordinal</td><td>Rank → z = (r−1)/(M−1) → treat as interval</td></tr>
+    <tr><td class="k">Mixed</td><td>Weighted combination Σδd / Σδ</td></tr>
+  </table>
+  <div class="box tip"><span class="tag">Big picture</span>
+    <p>Statistics + visualization + similarity measures = <b>بداية الـ data preprocessing</b>، وبعدها بنعمل clustering / classification.</p>
+  </div>
+</section>
+<section class="chapter" id="practice"><div class="chap-head"><div class="num">✓</div><div><h1>Practice MCQs</h1><p class="sub">جاوب الأول من غير ما تبص على الـ answer key في آخر الصفحة</p></div></div><div class="q-grid">
+<div class="q"><b class="n">1.</b> Which framework consists of 6 phases, starting with Business Understanding?<span class="o">A) KDD</span><span class="o">B) CRISP-DM</span><span class="o">C) IBM methodology</span><span class="o">D) Waterfall</span></div>
+<div class="q"><b class="n">2.</b> How many steps does the KDD process have?<span class="o">A) 4</span><span class="o">B) 5</span><span class="o">C) 6</span><span class="o">D) 10</span></div>
+<div class="q"><b class="n">3.</b> John Rollins' IBM data science methodology has how many steps?<span class="o">A) 5</span><span class="o">B) 7</span><span class="o">C) 10</span><span class="o">D) 12</span></div>
+<div class="q"><b class="n">4.</b> “What happened last quarter?” is answered by which analytics type?<span class="o">A) Descriptive</span><span class="o">B) Diagnostic</span><span class="o">C) Predictive</span><span class="o">D) Prescriptive</span></div>
+<div class="q"><b class="n">5.</b> “Why did sales drop?” is answered by which analytics type?<span class="o">A) Descriptive</span><span class="o">B) Diagnostic</span><span class="o">C) Predictive</span><span class="o">D) Prescriptive</span></div>
+<div class="q"><b class="n">6.</b> “What will happen next month?” is which analytics type?<span class="o">A) Descriptive</span><span class="o">B) Diagnostic</span><span class="o">C) Predictive</span><span class="o">D) Prescriptive</span></div>
+<div class="q"><b class="n">7.</b> “What should we do to achieve the best result?” is which analytics type?<span class="o">A) Descriptive</span><span class="o">B) Diagnostic</span><span class="o">C) Predictive</span><span class="o">D) Prescriptive</span></div>
+<div class="q"><b class="n">8.</b> Which type of analytics has the highest value and complexity?<span class="o">A) Descriptive</span><span class="o">B) Diagnostic</span><span class="o">C) Predictive</span><span class="o">D) Prescriptive</span></div>
+<div class="q"><b class="n">9.</b> Zip codes and ID numbers are what attribute type?<span class="o">A) Ratio</span><span class="o">B) Interval</span><span class="o">C) Nominal</span><span class="o">D) Ordinal</span></div>
+<div class="q"><b class="n">10.</b> Temperature in Celsius is a(n) ___ attribute.<span class="o">A) Nominal</span><span class="o">B) Ordinal</span><span class="o">C) Interval</span><span class="o">D) Ratio</span></div>
+<div class="q"><b class="n">11.</b> Which attribute type has a true zero point?<span class="o">A) Nominal</span><span class="o">B) Ordinal</span><span class="o">C) Interval</span><span class="o">D) Ratio</span></div>
+<div class="q"><b class="n">12.</b> A medical test result (positive/negative), where positive is rare and important, is:<span class="o">A) Symmetric binary</span><span class="o">B) Asymmetric binary</span><span class="o">C) Ordinal</span><span class="o">D) Interval</span></div>
+<div class="q"><b class="n">13.</b> JSON and XML files are examples of ___ data.<span class="o">A) Structured</span><span class="o">B) Semi-structured</span><span class="o">C) Unstructured</span><span class="o">D) Ordinal</span></div>
+<div class="q"><b class="n">14.</b> A survey you design and run yourself is which kind of data collection?<span class="o">A) Primary</span><span class="o">B) Secondary</span><span class="o">C) Tertiary</span><span class="o">D) Scraping</span></div>
+<div class="q"><b class="n">15.</b> Government reports and published datasets are ___ data sources.<span class="o">A) Primary</span><span class="o">B) Secondary</span><span class="o">C) Observational</span><span class="o">D) Interview</span></div>
+<div class="q"><b class="n">16.</b> Which of the following is a Python web-scraping library?<span class="o">A) Beautiful Soup</span><span class="o">B) Tableau</span><span class="o">C) Hadoop</span><span class="o">D) SPSS</span></div>
+<div class="q"><b class="n">17.</b> Weighted mean of 80 (w=1), 90 (w=3), 70 (w=2) equals:<span class="o">A) 80.00</span><span class="o">B) 81.67</span><span class="o">C) 83.33</span><span class="o">D) 490</span></div>
+<div class="q"><b class="n">18.</b> Trimmed mean of 10, 12, 13, 15, 16, 100 after removing one value from each end:<span class="o">A) 14</span><span class="o">B) 27.7</span><span class="o">C) 13.5</span><span class="o">D) 15</span></div>
+<div class="q"><b class="n">19.</b> Median of 3, 5, 7, 9, 11, 13:<span class="o">A) 7</span><span class="o">B) 8</span><span class="o">C) 9</span><span class="o">D) 6</span></div>
+<div class="q"><b class="n">20.</b> The data set 2, 3, 4, 4, 6, 6, 7, 8 is:<span class="o">A) Unimodal</span><span class="o">B) Bimodal</span><span class="o">C) Trimodal</span><span class="o">D) No mode</span></div>
+<div class="q"><b class="n">21.</b> In a positively skewed distribution:<span class="o">A) Mean < Median < Mode</span><span class="o">B) Mode < Median < Mean</span><span class="o">C) Mean = Median = Mode</span><span class="o">D) Median < Mode < Mean</span></div>
+<div class="q"><b class="n">22.</b> If mean = 40 and median = 35, the empirical mode is:<span class="o">A) 25</span><span class="o">B) 30</span><span class="o">C) 45</span><span class="o">D) 20</span></div>
+<div class="q"><b class="n">23.</b> Grouped data: N = 40, L = 20, CF before = 13, f = 12, width = 10. Median =<span class="o">A) 25.83</span><span class="o">B) 24.17</span><span class="o">C) 27.50</span><span class="o">D) 30.00</span></div>
+<div class="q"><b class="n">24.</b> Manhattan distance between (1,2) and (3,5):<span class="o">A) 3</span><span class="o">B) 3.61</span><span class="o">C) 5</span><span class="o">D) 13</span></div>
+<div class="q"><b class="n">25.</b> Euclidean distance between (1,2) and (3,5) ≈<span class="o">A) 3.61</span><span class="o">B) 5</span><span class="o">C) 3</span><span class="o">D) 13</span></div>
+<div class="q"><b class="n">26.</b> Supremum distance between (1,2) and (3,5):<span class="o">A) 5</span><span class="o">B) 3</span><span class="o">C) 3.61</span><span class="o">D) 2</span></div>
+<div class="q"><b class="n">27.</b> Nominal attributes: p = 4, matches m = 2. d(i,j) =<span class="o">A) 0.25</span><span class="o">B) 0.5</span><span class="o">C) 0.75</span><span class="o">D) 2</span></div>
+<div class="q"><b class="n">28.</b> Asymmetric binary: q=3, r=1, s=1, t=5. Jaccard similarity =<span class="o">A) 0.6</span><span class="o">B) 0.8</span><span class="o">C) 0.4</span><span class="o">D) 0.5</span></div>
+<div class="q"><b class="n">29.</b> Symmetric binary with q=3, r=1, s=1, t=5. d(i,j) =<span class="o">A) 0.2</span><span class="o">B) 0.4</span><span class="o">C) 0.1</span><span class="o">D) 0.5</span></div>
+<div class="q"><b class="n">30.</b> z-score for x = 70, μ = 60, σ = 5:<span class="o">A) 2</span><span class="o">B) −2</span><span class="o">C) 10</span><span class="o">D) 0.5</span></div>
+<div class="q"><b class="n">31.</b> Ordinal attribute with M = 4 states; the 3rd rank is mapped to:<span class="o">A) 0.5</span><span class="o">B) 0.67</span><span class="o">C) 0.75</span><span class="o">D) 1.0</span></div>
+<div class="q"><b class="n">32.</b> MAD of [3, 5, 7] (m = 5) =<span class="o">A) 1.33</span><span class="o">B) 2</span><span class="o">C) 4</span><span class="o">D) 0.67</span></div>
+<div class="q"><b class="n">33.</b> Which is NOT a property of a distance metric?<span class="o">A) Symmetry</span><span class="o">B) Triangle inequality</span><span class="o">C) Positive definiteness</span><span class="o">D) Diagonal equal to 1</span></div>
+<div class="q"><b class="n">34.</b> Mixed-type dissimilarity: two attributes with d=0.4 and d=0.3 (δ=1 each) gives:<span class="o">A) 0.7</span><span class="o">B) 0.35</span><span class="o">C) 0.12</span><span class="o">D) 1.4</span></div>
+</div><h2>Answer key</h2><div class="key"><b>1</b>-B &nbsp;·&nbsp; <b>2</b>-B &nbsp;·&nbsp; <b>3</b>-C &nbsp;·&nbsp; <b>4</b>-A &nbsp;·&nbsp; <b>5</b>-B &nbsp;·&nbsp; <b>6</b>-C &nbsp;·&nbsp; <b>7</b>-D &nbsp;·&nbsp; <b>8</b>-D &nbsp;·&nbsp; <b>9</b>-C &nbsp;·&nbsp; <b>10</b>-C &nbsp;·&nbsp; <b>11</b>-D &nbsp;·&nbsp; <b>12</b>-B &nbsp;·&nbsp; <b>13</b>-B &nbsp;·&nbsp; <b>14</b>-A &nbsp;·&nbsp; <b>15</b>-B &nbsp;·&nbsp; <b>16</b>-A &nbsp;·&nbsp; <b>17</b>-B &nbsp;·&nbsp; <b>18</b>-A &nbsp;·&nbsp; <b>19</b>-B &nbsp;·&nbsp; <b>20</b>-B &nbsp;·&nbsp; <b>21</b>-B &nbsp;·&nbsp; <b>22</b>-A &nbsp;·&nbsp; <b>23</b>-A &nbsp;·&nbsp; <b>24</b>-C &nbsp;·&nbsp; <b>25</b>-A &nbsp;·&nbsp; <b>26</b>-B &nbsp;·&nbsp; <b>27</b>-B &nbsp;·&nbsp; <b>28</b>-A &nbsp;·&nbsp; <b>29</b>-A &nbsp;·&nbsp; <b>30</b>-A &nbsp;·&nbsp; <b>31</b>-B &nbsp;·&nbsp; <b>32</b>-A &nbsp;·&nbsp; <b>33</b>-D &nbsp;·&nbsp; <b>34</b>-B</div></section><!-- CHEAT SHEET 1 -->
+<section class="sheet" id="cheat1">
+<div class="s-title"><h1>Cheat Sheet 1 — Concepts &amp; Rules</h1><span>Data Science Methodology</span></div>
+<div class="cols">
+<div class="blk a"><h3>Frameworks</h3><ul><li><b>CRISP-DM</b>: 6 phases (Business Und., Data Und., Data Prep., Modeling, Evaluation, Deployment)</li><li><b>KDD</b>: 5 steps (Selection, Preprocessing, Transformation, Data Mining, Interpretation)</li><li><b>IBM</b> (Rollins): 10 steps</li><li>Generic cycle: 7 steps (iterative)</li></ul></div>
+<div class="blk b"><h3>4 Analytics types</h3><table><tr><th>Type</th><th>Question</th></tr><tr><td>Descriptive</td><td>What happened?</td></tr><tr><td>Diagnostic</td><td>Why did it happen?</td></tr><tr><td>Predictive</td><td>What will happen?</td></tr><tr><td>Prescriptive</td><td>What should we do?</td></tr></table><p>Value &amp; complexity ↑ : Desc → Diag → Pred → Presc</p><p><span class="hl">Trick:</span> read the first word of the question.</p></div>
+<div class="blk c"><h3>Attribute types</h3><ul><li><b>Nominal</b>: names, no order (zip code, ID, color)</li><li><b>Binary</b>: 2 states; symmetric / asymmetric</li><li><b>Ordinal</b>: ordered, unknown gaps</li><li><b>Interval</b>: equal gaps, no true zero (°C)</li><li><b>Ratio</b>: true zero (height, weight, Kelvin)</li><li>Discrete = countable · Continuous = real numbers</li></ul></div>
+<div class="blk d"><h3>Data forms</h3><ul><li><b>Structured</b>: tables / DB</li><li><b>Semi-structured</b>: JSON, XML</li><li><b>Unstructured</b>: text, images, video</li></ul></div>
+<div class="blk e"><h3>Collection</h3><ul><li><b>Primary</b>: interviews, observation, surveys, focus groups</li><li><b>Secondary</b>: existing reports, databases, published data</li><li><b>Scraping tools</b>: Beautiful Soup, Requests, Scrapy, Selenium, Playwright</li></ul></div>
+<div class="blk a"><h3>Skewness</h3><ul><li>Positive (right tail): <span class="hl">Mode &lt; Median &lt; Mean</span></li><li>Negative (left tail): <span class="hl">Mean &lt; Median &lt; Mode</span></li><li>Symmetric: Mean = Median = Mode</li><li>Mean most affected by outliers; median robust</li><li>Unimodal / bimodal / trimodal = 1 / 2 / 3 modes</li></ul></div>
+<div class="blk b"><h3>Similarity facts</h3><ul><li>Similarity ∈ [0,1], higher = more alike</li><li>Dissimilarity min = 0; sim = 1 − d</li><li>Proximity = sim or dissim</li><li>Data matrix N×p (two-mode); dissimilarity matrix N×N (single-mode, diagonal 0, triangular)</li><li>Metric: positive definiteness, symmetry, triangle inequality</li></ul></div>
+<div class="blk c"><h3>Which measure?</h3><ul><li>Numeric → Minkowski (z-score first)</li><li>Nominal → simple matching / one-hot</li><li>Symmetric binary → SMC (uses t)</li><li>Asymmetric binary → Jaccard (ignores t)</li><li>Ordinal → rank → z=(r−1)/(M−1)</li><li>Mixed → Σδd / Σδ</li></ul></div>
+<div class="blk d"><h3>Exam traps</h3><ul><li>Analytic Understanding = Analytic Approach</li><li>Zip code / ID = nominal (not numeric)</li><li>Asymmetric → t is ignored</li><li>Grouped median: search N/2, subtract CF <u>before</u>, multiply by width</li><li>Weighted mean divides by Σw</li><li>L∞ ≤ L2 ≤ L1</li></ul></div>
+</div></section>
+<!-- CHEAT SHEET 2 -->
+<section class="sheet" id="cheat2">
+<div class="s-title"><h1>Cheat Sheet 2 — Formulas</h1><span>مع أمثلة سريعة</span></div>
+<div class="cols">
+<div class="blk a"><h3>Mean</h3><div class="formula">x̄ = <span class="frac"><span>Σxᵢ</span><span>n</span></span> , μ = <span class="frac"><span>Σx</span><span>N</span></span></div><div class="formula">x̄<sub>w</sub> = <span class="frac"><span>Σwᵢxᵢ</span><span>Σwᵢ</span></span></div><p>Ex: (80+270+140)/6 = <b>81.67</b></p><p>Trimmed: drop extremes then average (→ 14)</p></div>
+<div class="blk b"><h3>Median &amp; Mode</h3><div class="formula">median = L + <span class="frac"><span>N/2 − CF</span><span>f</span></span> × w</div><p>Ex: 20 + (20−13)/12 × 10 = <b>25.83</b></p><div class="formula">mean − mode = 3(mean − median)</div><p>Ex: mean 40, median 35 → mode <b>25</b></p><p>Even n: median = avg of 2 middle values</p></div>
+<div class="blk c"><h3>Minkowski</h3><div class="formula">d = ( Σ|xᵢ−yᵢ|<sup>h</sup> )<sup>1/h</sup></div><ul><li>h=1 Manhattan = Σ|xᵢ−yᵢ|</li><li>h=2 Euclidean = √Σ(xᵢ−yᵢ)²</li><li>h=∞ Supremum = max|xᵢ−yᵢ|</li></ul><p>(1,2),(3,5): <b>5</b> · <b>3.61</b> · <b>3</b></p></div>
+<div class="blk d"><h3>Nominal</h3><div class="formula">d = <span class="frac"><span>p − m</span><span>p</span></span> = 1 − SMC</div><p>p=4, m=2 → <b>0.5</b></p><p>One-hot: differing bits / total bits (4/10 = 0.4)</p></div>
+<div class="blk e"><h3>Binary (q,r,s,t)</h3><table><tr><th></th><th>j=1</th><th>j=0</th></tr><tr><th>i=1</th><td>q</td><td>r</td></tr><tr><th>i=0</th><td>s</td><td>t</td></tr></table><div class="formula">Symmetric: d = <span class="frac"><span>r+s</span><span>q+r+s+t</span></span></div><div class="formula">Asymmetric: d = <span class="frac"><span>r+s</span><span>q+r+s</span></span> , Jaccard = <span class="frac"><span>q</span><span>q+r+s</span></span></div><p>1 = most important outcome; p = q+r+s+t</p></div>
+<div class="blk a"><h3>Standardization</h3><div class="formula">z = <span class="frac"><span>x − μ</span><span>σ</span></span> (mean 0, SD 1)</div><p>x=70, μ=60, σ=5 → <b>2</b></p><div class="formula">s<sub>f</sub> = <span class="frac"><span>1</span><span>n</span></span>Σ|x−m<sub>f</sub>| , z = <span class="frac"><span>x−m<sub>f</sub></span><span>s<sub>f</sub></span></span></div><p>MAD more robust than SD. [3,5,7] → <b>1.33</b></p></div>
+<div class="blk b"><h3>Ordinal</h3><div class="formula">z = <span class="frac"><span>r − 1</span><span>M − 1</span></span></div><p>M=4 → 0, 0.33, 0.67, 1.0; then treat as interval</p></div>
+<div class="blk c"><h3>Mixed type</h3><div class="formula">d(i,j) = <span class="frac"><span>Σ δ·d</span><span>Σ δ</span></span></div><p>0.7 / 2 = <b>0.35</b></p></div>
+<div class="blk d"><h3>Quick reminders</h3><ul><li>sim = 1 − d</li><li>Weighted Euclid: √Σw(x−y)²</li><li>Hamming = # differing bits</li><li>Standardize <u>before</u> distance</li></ul></div>
+</div></section>
+</body>
+</html>
